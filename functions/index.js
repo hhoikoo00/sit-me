@@ -1,9 +1,10 @@
 const functions = require("firebase-functions");
+const app = require("express")();
 
-// Create and Deploy Your First Cloud Functions
-// https://firebase.google.com/docs/functions/write-firebase-functions
+const sampleCallback = (req, res) => {
+  return res.send("Hello World!");
+};
 
-exports.helloWorld = functions.https.onRequest((request, response) => {
-  functions.logger.info("Hello logs!", {structuredData: true});
-  response.send("Hello from Firebase!");
-});
+app.get("/hello", sampleCallback);
+
+exports.api = functions.https.onRequest(app);
