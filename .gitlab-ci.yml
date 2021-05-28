@@ -1,0 +1,15 @@
+default:
+  image: node:14
+
+stages:
+  - Build and Deploy
+
+build-and-deploy:
+  stage: Build and Deploy
+  script:
+    - npm i -g firebase-tools
+    - cd functions && npm install && cd ..
+    - cd react-frontend && npm install && npm run build && cd .. 
+    - firebase deploy --token "${FIREBASE_DEPLOY_TOKEN}"
+
+
