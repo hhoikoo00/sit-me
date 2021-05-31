@@ -1,15 +1,66 @@
 default:
-  image: node:14
+  image: mrkobhrai/node14-firebase-tools:latest
 
 stages:
-  - Build and Deploy
+  - Install Dependencies
+  - Build Frontend
+  - Deploy
 
-build-and-deploy:
-  stage: Build and Deploy
+frontend-dependencies:
+  stage: Install Dependencies
   script:
-    - npm i -g firebase-tools
-    - cd functions && npm install && cd ..
-    - cd react-frontend && npm install && npm run build && cd .. 
-    - firebase deploy --token "${FIREBASE_DEPLOY_TOKEN}"
+    - cd react-frontend
+    - npm ci
+  cache:
+    untracked: true
+    key: "frontend"
+    paths:
+      - react-frontend/node_modules/
+  artifacts:
+    paths:
+      - react-frontend/node_modules/
+  needs: []
+
+backend-dependencies:
+  stage: Install Dependencies
+  script:
+    - cd functions
+    - npm ci
+  cache:
+    untracked: true
+    key: "backend"
+    paths:
+      - functions/node_modules/
+  artifacts:
+    paths:
+      - functions/node_modules/
+  needs: []
+  
+build-frontend:
+  stage: Build Frontend
+  script:
+    - cd react-frontend
+    - npm run build
+  artifacts:
+    paths:
+      - react-frontend/build
+  needs: ["frontend-dependencies"]
+
+deploy-frontend:
+  stage: Deploy
+  script:
+    - firebase deploy --only hosting --token "${FIREBASE_DEPLOY_TOKEN}"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "production"'
+  needs: ["build-frontend", "backend-dependencies"]
+
+deploy-backend:
+  stage: Deploy
+  script:
+    - firebase deploy --only functions --token "${FIREBASE_DEPLOY_TOKEN}"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "production"'
+  needs: ["build-frontend", "backend-dependencies"]
+
 
 
