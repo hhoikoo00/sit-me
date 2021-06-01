@@ -1,4 +1,6 @@
-function App() {
+import React from "react";
+
+const App = () => {
   return (
     <div>
       Hello DRP 19!
