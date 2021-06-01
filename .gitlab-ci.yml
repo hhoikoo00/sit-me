@@ -13,7 +13,7 @@ frontend-dependencies:
     - npm ci
   cache:
     untracked: true
-    key: "frontend"
+    key: "$CI_COMMIT_BRANCH-frontend"
     paths:
       - react-frontend/node_modules/
   artifacts:
@@ -28,7 +28,7 @@ backend-dependencies:
     - npm ci
   cache:
     untracked: true
-    key: "backend"
+    key: "$CI_COMMIT_BRANCH-backend"
     paths:
       - functions/node_modules/
   artifacts:
