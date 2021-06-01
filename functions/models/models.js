@@ -1,8 +1,10 @@
-require('./server')
-
 const Database = require('./database');
 
-const database = new Database();
+const Server = require('./server')
+
+const server = new Server();
+
+const database = new Database(server);
 
 module.exports = database;
 
