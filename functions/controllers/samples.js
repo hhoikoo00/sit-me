@@ -1,7 +1,7 @@
 const express = require("express");
 const samplesRouter = new express.Router();
 
-const database = require("../models/sample");
+const database = require("../models/models");
 
 samplesRouter.get("/hello", async (req, res, next) => {
   const noErrors = true;
@@ -15,9 +15,7 @@ samplesRouter.get("/hello", async (req, res, next) => {
 
 samplesRouter.post("/database", async (req, res, next) => {
   const data = req.body;
-  database.ref("sample").push({
-    "key?": data,
-  });
+  database.push_data(data);
   await res.send(`success adding ${data}`);
 });
 
