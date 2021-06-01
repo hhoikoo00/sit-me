@@ -1,10 +1,10 @@
 /**
- * A class that models a database
+ * A class used to model database transactions
  */
 class Database {
   /**
-   * constructor
-   * @param {Object} server server object
+   * Constructor for accessing the database from the server
+   * @param {Server} server server object
    */
   constructor(server) {
     this.database = server.fetchDatabase();

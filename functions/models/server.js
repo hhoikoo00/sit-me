@@ -4,7 +4,7 @@ const config = require("../utils/config");
 const logger = require("../utils/logger");
 
 /**
- * A class that models a server connection
+ * A class used to model external servers
  */
 class Server {
   /**
@@ -31,7 +31,7 @@ class Server {
   }
 
   /**
-   * Returns database object
+   * Fetches a database connection object from the server
    * @return {Object} database
    */
   fetchDatabase() {
