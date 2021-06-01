@@ -1,5 +1,8 @@
 module.exports = {
   root: true,
+  parserOptions: {
+    ecmaVersion: 2018,
+  },
   env: {
     commonjs: true,
     es6: true,

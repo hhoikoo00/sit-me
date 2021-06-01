@@ -1,7 +1,6 @@
 // library imports
 const express = require("express");
 const app = express();
-const database = require("./models/models");
 require("express-async-errors"); // no need for try/catch for error
 
 // module imports

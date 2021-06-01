@@ -1,6 +1,14 @@
+/**
+ * A class that models a database
+ */
 class Database {
-    constructor(server) {
-        this.database = server.fetchDatabase()
-    }
+  /**
+   * constructor
+   * @param {Object} server server object
+   */
+  constructor(server) {
+    this.database = server.fetchDatabase();
+  }
 }
-module.exports = Database
+
+module.exports = Database;
