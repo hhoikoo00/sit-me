@@ -15,7 +15,7 @@ samplesRouter.get("/hello", async (req, res, next) => {
 
 samplesRouter.post("/database", async (req, res, next) => {
   const data = req.body;
-  database.push_data(data);
+  database.pushData(data);
   await res.send(`success adding ${data}`);
 });
 

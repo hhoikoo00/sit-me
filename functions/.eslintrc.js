@@ -16,5 +16,6 @@ module.exports = {
   rules: {
     "quotes": ["error", "double"],
     "object-curly-spacing": ["error", "always"],
+    "camelcase": [2, { "properties": "always" }],
   },
 };
