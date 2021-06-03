@@ -2,10 +2,23 @@ default:
   image: mrkobhrai/node14-firebase-tools:latest
 
 stages:
+  - Style Check
   - Install Dependencies
   - Build Frontend
   - Deploy
 
+frontend-style-check:
+  stage: Style Check
+  script:
+    - cd react-frontend
+    - eslint .
+
+backend-style-check:
+  stage: Style Check
+  script:
+    - cd functions
+    - eslint .
+  
 frontend-dependencies:
   stage: Install Dependencies
   script:
@@ -19,7 +32,7 @@ frontend-dependencies:
   artifacts:
     paths:
       - react-frontend/node_modules/
-  needs: []
+  needs: ["frontend-style-check"]
 
 backend-dependencies:
   stage: Install Dependencies
@@ -34,7 +47,7 @@ backend-dependencies:
   artifacts:
     paths:
       - functions/node_modules/
-  needs: []
+  needs: ["backend-style-check"]
   
 build-frontend:
   stage: Build Frontend
