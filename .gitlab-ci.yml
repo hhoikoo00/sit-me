@@ -51,6 +51,10 @@ backend-style-check:
     - cd functions
     - eslint .
   needs: ["backend-dependencies"]
+  artifacts:
+    paths:
+      - functions/node_modules/
+
   
 build-frontend:
   stage: Build Frontend
