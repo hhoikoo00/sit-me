@@ -1,5 +1,6 @@
 // library imports
 const express = require("express");
+const cors = require("cors");
 const app = express();
 require("express-async-errors"); // no need for try/catch for error
 
@@ -7,6 +8,7 @@ require("express-async-errors"); // no need for try/catch for error
 const samplesRouter = require("./controllers/samples");
 const middleware = require("./utils/middleware");
 
+app.use(cors());
 app.use(express.json());
 app.use(middleware.requestLogger);
 
