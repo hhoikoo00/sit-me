@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 
+//TODO Get URL to vary based on local or cloud hosting
+const apiURL = "https://europe-west2-imperial-drp-sit-me.cloudfunctions.net/api/dbsamples/"
+
 class CodeForm extends Component {
   constructor(props) {
     super(props);
@@ -11,23 +14,21 @@ class CodeForm extends Component {
   }
 
   editBookType = (event) => {
-    console.log(event.target.checked);
     this.setState({ doBook: event.target.checked });
   }
 
 
-  handleSubmit = (event) => {
-    alert((this.state.doBook ? "Booking" : "Cancelling booking on") + " chair: " + this.state.code)
+  handleSubmit = async (event) => {
     const requestOptions = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ isBooked: true })
+      body: JSON.stringify({ isBooked: this.state.doBook })
     };
 
-    //TODO: Add correct URL
-    fetch("http://localhost:5000/imperial-drp-sit-me/europe-west2/api/hello/" + this.state.code, requestOptions)
-      .then(response => response.json())
-      .then(console.log);
+    await fetch(apiURL + this.state.code, requestOptions)
+      .then(response => response.json());
+
+    this.setState(this.state);
 
     event.preventDefault();
   }
@@ -69,26 +70,14 @@ class App extends Component {
   }
 
   fetchAvailability = () => {
-      // fetch("http://localhost:5000/imperial-drp-sit-me/europe-west2/api/hello")
-      //     .then(res => res.text())
-      //     .then(res => this.setState({ seats: res }))
-      //     .catch(console.log);
-      
-      this.setState({
-        seats: {
-          "A0": true,
-          "A1": false,
-          "A2": true,
-          "A3": false,
-          "A4": true,
-          "B0": false,
-          "B1": true,
-          "B2": true,
-          "B3": false,
-          "B4": false,
-          "B5": false,
-        }
-      });
+      fetch(apiURL)
+          .then(res => res.json())
+          .then((data) => {
+            var seatAvail = {};
+            data.forEach(seat => seatAvail[seat["id"]] = seat["isBooked"])
+            this.setState({ seats: seatAvail })
+          })
+          .catch(console.log);
    }
 
   seatEntry = (id, isFree) => {
