@@ -19,6 +19,7 @@ class CodeForm extends Component {
 
 
   handleSubmit = async (event) => {
+    alert((this.state.doBook ? "Booking" : "Cancelling booking on")  + " seat "  + this.state.code)
     const requestOptions = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
