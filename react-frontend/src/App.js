@@ -19,6 +19,8 @@ class CodeForm extends Component {
 
 
   handleSubmit = async (event) => {
+    event.preventDefault();
+
     alert((this.state.doBook ? "Booking" : "Cancelling booking on")  + " seat "  + this.state.code)
     const requestOptions = {
       method: "PUT",
@@ -31,7 +33,6 @@ class CodeForm extends Component {
 
     this.setState(this.state);
 
-    event.preventDefault();
   }
 
   render = () => {
@@ -81,20 +82,19 @@ class App extends Component {
           .catch(console.log);
    }
 
-  seatEntry = (id, isBooked) => {
-    const style = { 
-      "backgroundColor": isBooked ? "red" : "green", 
-      "padding": "10%",
-      "margin": "5%"
-    }
+  // seatEntry = (id, isBooked) => {
+  //   const style = { 
+  //     "backgroundColor": isBooked ? "red" : "green", 
+  //     "padding": "10%",
+  //     "margin": "5%"
+  //   }
 
-    return (
-      <div style={style}>
-        Seat: { id }
-      </div>
-    )
-  }
-
+  //   return (
+  //     <div style={style}>
+  //       Seat: { id }
+  //     </div>
+  //   )
+  // }
 
   render = () => {
     const style = {
@@ -102,9 +102,20 @@ class App extends Component {
       "textAlign": "center",
       "fontSize": "150%",
     }
+    
     const entries = Object.keys(this.state.seats).map(
       (key) => {
-        return this.seatEntry(key, this.state.seats[key]);
+        const entry = (id, isBooked) => {
+          const entryStyle = { 
+            "backgroundColor": isBooked ? "red" : "green", 
+            "padding": "10%",
+            "margin": "5%"
+          }
+          return (<div style={entryStyle}>
+            Seat: { id }
+          </div>
+        )}
+        return entry(key, this.state.seats[key]);
       }
     )
     return (
