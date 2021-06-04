@@ -81,9 +81,9 @@ class App extends Component {
           .catch(console.log);
    }
 
-  seatEntry = (id, isFree) => {
+  seatEntry = (id, isBooked) => {
     const style = { 
-      "backgroundColor": isFree ? "green" : "red", 
+      "backgroundColor": isBooked ? "red" : "green", 
       "padding": "10%",
       "margin": "5%"
     }
