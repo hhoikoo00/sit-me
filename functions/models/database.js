@@ -1,5 +1,3 @@
-const logger = require("../utils/logger");
-
 const ROUTE = "seats";
 const SEATS = [
   {
@@ -42,17 +40,15 @@ class Database {
    * @return {Array} of seat entries
    */
   async getAllSeats() {
-    const snapshot = await this.database.ref().child(ROUTE).get();
-    logger.info(snapshot);
+    let snapshot = await this.database.ref().child(ROUTE).get();
 
-    // if empty initialize database
+    // if empty, initialize database and refetch from database
     if (!snapshot.exists()) {
       this._initDatabase(SEATS);
+      snapshot = await this.database.ref().child(ROUTE).get();
     }
 
-    const seats = this._formatSnapshot(snapshot.val());
-    logger.info(seats);
-    return seats;
+    return this._formatSnapshot(snapshot.val());
   }
 
   /**
@@ -62,12 +58,8 @@ class Database {
    */
   async getSeat(id) {
     const snapshot = await this.database.ref().child(ROUTE).get();
-    logger.info(snapshot);
-
-    const seat = this._formatSnapshot(snapshot.val())
+    return this._formatSnapshot(snapshot.val())
         .find((seat) => seat.id === id);
-    logger.info(seat);
-    return seat;
   }
 
   /**
@@ -78,7 +70,7 @@ class Database {
    */
   async updateSeat(id, value) {
     const newData = {
-      isAvailable: value.isAvailable,
+      isBooked: value.isBooked,
     };
 
     await this.database.ref().child(ROUTE).child(id).update(newData);
@@ -98,7 +90,7 @@ class Database {
         .map(([id, value]) => {
           return {
             id,
-            isAvailable: value.isAvailable,
+            isBooked: value.isBooked,
           };
         });
   }
@@ -112,7 +104,7 @@ class Database {
 
     seats.forEach((seat) => {
       dbRef.child(seat.id).set({
-        isAvailable: seat.isAvailable,
+        isBooked: seat.isBooked,
       });
     });
   }

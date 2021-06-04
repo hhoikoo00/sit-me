@@ -18,8 +18,8 @@ samplesRouter.get("/:id", async (req, res, next) => {
 // Modify the booking status of the seat with the specific id
 samplesRouter.put("/:id", async (req, res, next) => {
   const id = req.params.id;
-  const isAvailable = req.body.isAvailable;
-  const data = await database.updateSeat(id, { isAvailable });
+  const isBooked = req.body.isBooked;
+  const data = await database.updateSeat(id, { isBooked });
   res.json(data);
 });
 
