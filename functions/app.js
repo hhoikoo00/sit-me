@@ -10,7 +10,7 @@ const middleware = require("./utils/middleware");
 app.use(express.json());
 app.use(middleware.requestLogger);
 
-app.use("/", samplesRouter);
+app.use("/dbsamples", samplesRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);

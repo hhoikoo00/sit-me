@@ -1,22 +1,26 @@
 const express = require("express");
+const database = require("../models/models");
 const samplesRouter = new express.Router();
 
-const database = require("../models/models");
-
-samplesRouter.get("/hello", async (req, res, next) => {
-  const noErrors = true;
-  if (noErrors) {
-    await res.send("Hello World!");
-  } else {
-    // mocking middleware error handling
-    next();
-  }
+// Get all seats (available or booked)
+samplesRouter.get("/", async (req, res, next) => {
+  const seats = await database.getAllSeats();
+  res.json(seats);
 });
 
-samplesRouter.post("/database", async (req, res, next) => {
-  const data = req.body;
-  database.pushData(data);
-  await res.send(`success adding ${data}`);
+// Get the seat with the <id>
+samplesRouter.get("/:id", async (req, res, next) => {
+  const id = req.params.id;
+  const seat = await database.getSeat(id);
+  res.json(seat);
+});
+
+// Modify the booking status of the seat with the specific id
+samplesRouter.put("/:id", async (req, res, next) => {
+  const id = req.params.id;
+  const isBooked = req.body.isBooked;
+  const data = await database.updateSeat(id, { isBooked });
+  res.json(data);
 });
 
 module.exports = samplesRouter;
