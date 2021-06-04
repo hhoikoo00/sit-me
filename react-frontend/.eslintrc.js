@@ -14,6 +14,7 @@ module.exports = {
     "eslint:recommended",
     "plugin:react/recommended"
   ],
+  parser: "babel-eslint",
   rules: {
     "quotes": ["error", "double"],
     "camelcase": [2, { "properties": "always" }],
