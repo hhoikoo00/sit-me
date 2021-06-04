@@ -94,7 +94,8 @@ class App extends Component {
     )
   }
 
-  seatEntries = () => {
+
+  render = () => {
     const style = {
       "padding": "0px",
       "textAlign": "center",
@@ -106,19 +107,11 @@ class App extends Component {
       }
     )
     return (
-      <div style={style}>
-        { entries }
-      </div>
-    )
-  }
-  
-
-
-  render = () => {
-    return (
         <div>
           <CodeForm />
-          <this.seatEntries />
+          <div style={style}>
+            {entries}
+          </div>
         </div>
       );
   }
