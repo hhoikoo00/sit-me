@@ -1,127 +1,92 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 
 //TODO Get URL to vary based on local or cloud hosting
 const apiURL = "https://europe-west2-imperial-drp-sit-me.cloudfunctions.net/api/dbsamples/"
 
-class CodeForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { code: "" , doBook: true }
+const App = () => {
+
+  const [seats, setSeats] = useState({})
+
+  const [code, setCode] = useState("")
+
+  const [doBook, setDoBook] = useState(true)
+
+  const fetchData = () => {
+    fetch(apiURL)
+      .then(res => res.json())
+      .then((seatData) => {
+        const newSeats = {}
+        seatData.forEach((entry) => newSeats[entry["id"]] = entry["isBooked"])
+        setSeats(newSeats);
+      })
+      .catch(console.log)
   }
 
-  editCode = (event) => {
-    this.setState({ code: event.target.value });
-  }
+  const entries = () => Object.keys(seats).map((seatCode) =>{ 
 
-  editBookType = (event) => {
-    this.setState({ doBook: event.target.checked });
-  }
-
-
-  handleSubmit = async (event) => {
-    const requestOptions = {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ isBooked: this.state.doBook })
-    };
-
-    await fetch(apiURL + this.state.code, requestOptions)
-      .then(response => response.json());
-
-    this.setState(this.state);
-
-    event.preventDefault();
-  }
-
-  render = () => {
-    const style = {
-      "padding": "0px",
-      "textAlign": "center",
-      "fontSize": "150%",
-    }
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <div style={style}>
-          <label>
-            Book Seat:   
-            <input type="text" value={this.state.value} onChange={this.editCode} />
-          </label>
-          <br/>
-          <label>
-            { this.state.doBook ? "Create" : "Cancel" } booking 
-            <input type="checkbox" checked={this.state.doBook} onChange={this.editBookType}/>
-          </label>
-          <br/>
-          <input type="submit" value="Submit" />
-        </div>
-      </form>
-    );
-  }
-}
-
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { seats:  {} };
-  }
-
-  componentDidMount() {
-    this.fetchAvailability();
-  }
-
-  fetchAvailability = () => {
-      fetch(apiURL)
-          .then(res => res.json())
-          .then((data) => {
-            var seatAvail = {};
-            data.forEach(seat => seatAvail[seat["id"]] = seat["isBooked"])
-            this.setState({ seats: seatAvail })
-          })
-          .catch(console.log);
-   }
-
-  seatEntry = (id, isFree) => {
-    const style = { 
-      "backgroundColor": isFree ? "green" : "red", 
+    const entryStyle = {
+      "backgroundColor": seats[seatCode] ? "red" : "green", 
       "padding": "10%",
-      "margin": "5%"
+      "margin": "5%",
+      "fontSize": "200%",
+      "textAlign": "center"
     }
 
-    return (
-      <div style={style}>
-        Seat: { id }
-      </div>
-    )
-  }
+      return (
+      <div style={entryStyle} key={seatCode}>
+          {seatCode}
+        </div>
+      )
+    }
+  )
 
-  seatEntries = () => {
-    const style = {
+  const bookingForm = () => {
+    const formStyle = {
       "padding": "0px",
       "textAlign": "center",
       "fontSize": "150%",
     }
-    const entries = Object.keys(this.state.seats).map(
-      (key) => {
-        return this.seatEntry(key, this.state.seats[key]);
-      }
-    )
+
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+      alert((doBook ? "Booking" : "Cancelling booking on")  + " seat "  + code)
+      const requestOptions = {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ isBooked: doBook })
+      };
+      
+      await fetch(apiURL + code, requestOptions)
+        .then(response => response.json());
+    }
+
     return (
-      <div style={style}>
-        { entries }
+      <form onSubmit={handleSubmit}>
+      <div style={formStyle}>
+        <label>
+          Book Seat:   
+          <input type="text" onChange={e => setCode(e.target.value)} />
+        </label>
+        <br/>
+        <label>
+          { doBook ? "Create" : "Cancel" } booking 
+          <input type="checkbox" checked={doBook} onClick={e => setDoBook(e.target.checked)}/>
+        </label>
+        <br/>
+        <input type="submit" value="Submit" />
       </div>
+    </form>
     )
   }
-  
 
+  fetchData();
 
-  render = () => {
-    return (
-        <div>
-          <CodeForm />
-          <this.seatEntries />
-        </div>
-      );
-  }
+  return (
+    <div>
+      Hello DRP 19
+      { bookingForm() }
+      { entries() }
+    </div>
+  )
 }
-
 export default App;
