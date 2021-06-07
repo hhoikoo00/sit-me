@@ -16,11 +16,12 @@ const unknownEndpoint = (req, res) => {
 const errorHandler = (error, req, res, next) => {
   logger.error(error.message);
 
-  // add any error that needs to be handled
-  // e.g.
-  // if (error.name === "CastError") {
-  //   return res.status(400).send({ error: "malformatted <something>" });
-  // }
+  if (error.name === "MissingShortcodeOrPasswordError") {
+    return res.status(400).send({ error: "Missing Shortcode or Password" });
+  }
+  if (error.name === "LoginFailureError") {
+    return res.status(401).send({ error: "Failed to login" });
+  }
 
   next(error);
 };
