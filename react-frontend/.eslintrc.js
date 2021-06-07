@@ -20,7 +20,8 @@ module.exports = {
     "camelcase": [2, { "properties": "always" }],
     "object-curly-spacing": ["error", "always"],
     "no-undef": 2,
-    "no-unused-vars": 2
+    "no-unused-vars": 2,
+    "react/prop-types": 0
   },
   "parserOptions": {
     "ecmaVersion": 11,
