@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-//TODO Get URL to vary based on local or cloud hosting
-const apiURL = "https://europe-west2-imperial-drp-sit-me.cloudfunctions.net/api/dbsamples";
+import { bookCancelSeat, getSeatData } from "./DataFetcher"
 
 const Entries = ({ seats }) => Object.entries(seats)
   .map(([id, { isBooked }]) => {
@@ -50,9 +48,7 @@ const BookingForm = ({ doBook, setDoBook, code, setCode }) => {
 
     alert(`${doBook ? "Booking" : "Cancelling booking on"} seat ${code}`);
 
-    await axios.put(`apiURL/${code}`, {
-      isBooked: doBook,
-    });
+    await bookCancelSeat(code, doBook);
   };
 
   return (
@@ -75,7 +71,7 @@ const BookingPage = () => {
 
   useEffect(() => {
     const fetchSeatData = async () => {
-      const seatData = await axios.get(apiURL);
+      const seatData = await getSeatData();
 
       const newSeats = {};
       seatData.data.forEach((entry) => newSeats[entry.id] = entry.isBooked);

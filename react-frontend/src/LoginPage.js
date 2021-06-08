@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import"./css/index.css"
 import sitMeLogo from "./assets/logos/sitMeLogo.png"
-import axios from "axios";
-
-const apiURL = "http://europe-west2-imperial-drp-sit-me.cloudfunctions.net/api";
+import { attemptLogin } from "./DataFetcher"
 
 const LoginForm = ({ username, setUsername, password, setPassword, onLogin, destPath }) => {
     const history = useHistory();
@@ -38,17 +36,8 @@ const LoginForm = ({ username, setUsername, password, setPassword, onLogin, dest
 
     const handleSubmit =  async (event) => {
         event.preventDefault();
-        await axios.post(
-            apiURL + "/login",
-            {
-                shortcode: username,
-                password: password
-            }
-        )
-        .then(res => res.data)
+        await attemptLogin(username, password)
         .then((data) => {
-            console.log(data);
-            console.log(destPath);
             if(data.loggedIn){
                 onLogin();
                 history.push("/" + destPath);
