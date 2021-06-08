@@ -4,6 +4,7 @@ const logger = require("../../utils/logger");
 // DB Refs
 const SEATS = "seats";
 const BOOKINGS = "bookings";
+const AREAS = "areas";
 
 // Seat Status
 const FREE = "FREE";
@@ -15,6 +16,7 @@ class SeatsDB {
     this.database = server.fetchDatabase().ref();
     this.seats = this.database.child(SEATS);
     this.bookings = this.database.child(BOOKINGS);
+    this.areas = this.database.child(AREAS);
   }
 
   async getSeat(seatId) {
@@ -79,6 +81,10 @@ class SeatsDB {
       }
     }
 
+    const areaId = seat.location.areaId;
+    const area = await this.areas.child(areaId).get();
+    const current = Number(area.val().current);
+
     const bookingUpdate = {
       seatId,
       startTime: startTime.getTime(),
@@ -86,9 +92,10 @@ class SeatsDB {
     };
 
     const updates = {
+      [`/areas/${areaId}/current`]: current + 1,
+      [`/bookings/${userId}`]: bookingUpdate,
       [`/seats/${seatId}/userId`]: userId,
       [`/seats/${seatId}/status`]: BOOKED,
-      [`/bookings/${userId}`]: bookingUpdate,
     };
 
     // Update seat table and booking table ATOMICALLY
@@ -105,10 +112,17 @@ class SeatsDB {
     }
 
     const { seatId } = booking;
+
+    const seat = await this.getSeat(seatId);
+    const areaId = seat.location.areaId;
+    const area = await this.areas.child(areaId).get();
+    const current = Number(area.val().current);
+
     const updates = {
+      [`/areas/${areaId}/current`]: current - 1,
+      [`/bookings/${userId}`]: null, // delete
       [`/seats/${seatId}/userId`]: null, // delete
       [`/seats/${seatId}/status`]: FREE,
-      [`/bookings/${userId}`]: null, // delete
     };
 
     // Update seat table and booking table ATOMICALLY

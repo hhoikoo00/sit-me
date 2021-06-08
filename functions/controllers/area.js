@@ -1,6 +1,6 @@
 const express = require("express");
 const areaRouter = new express.Router();
-const { areas } = require("../models");
+const { areas } = require("../models/models");
 
 areaRouter.get("/", async (req, res, next) => {
   // TODO implement
