@@ -13,8 +13,6 @@ const unknownEndpoint = (req, res) => {
 };
 
 const errorHandler = (error, req, res, next) => {
-  logger.error(error.message);
-
   if (error.name === "MissingShortcodeOrPasswordError") {
     return res.status(400).send({ error: "Missing Shortcode or Password" });
   }
