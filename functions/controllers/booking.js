@@ -6,6 +6,26 @@ const time = require("../utils/time");
 // Maximum duration in minutes (to be defined in a config file)
 const MAX_DURATION = 180;
 
+bookingRouter.get("/seat/:seatId", async (req, res, next) => {
+  const seatId = req.params.seatId;
+  // Check if given params are valid
+  if (seatId === undefined) {
+    return next({ name: "InvalidParamsError", params: ["Seat ID"] });
+  }
+
+  // TODO
+});
+
+bookingRouter.get("/user/:userId", async (req, res, next) => {
+  const userId = req.params.userId;
+  // Check if given params are valid
+  if (userId === undefined) {
+    return next({ name: "InvalidParamsError", params: ["User ID"] });
+  }
+
+  // TODO
+});
+
 bookingRouter.post("/", async (req, res, next) => {
   const seatId = req.body.seatId;
   const userId = req.body.userId;
