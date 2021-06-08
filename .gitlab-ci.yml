@@ -71,7 +71,7 @@ deploy-frontend:
   script:
     - firebase deploy --only hosting --token "${FIREBASE_DEPLOY_TOKEN}"
   rules:
-    - if: '$CI_COMMIT_BRANCH == "production"'
+    - if: '$CI_COMMIT_BRANCH == "master"'
   needs: ["build-frontend", "backend-style-check"]
 
 deploy-backend:
@@ -79,7 +79,7 @@ deploy-backend:
   script:
     - firebase deploy --only functions --token "${FIREBASE_DEPLOY_TOKEN}"
   rules:
-    - if: '$CI_COMMIT_BRANCH == "production"'
+    - if: '$CI_COMMIT_BRANCH == "master"'
   needs: ["build-frontend", "backend-style-check"]
 
 
