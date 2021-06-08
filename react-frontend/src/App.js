@@ -21,8 +21,8 @@ const App = () => {
         <Route path="/login/:dest?">
           <LoginPage onLogin={onLogin}/>
         </Route>
-        <Route path="/">
-          { loggedIn ? <BookingPage /> : <Redirect to="/login/" /> }
+        <Route path="/bookingPage">
+          { loggedIn ? <BookingPage /> : <Redirect to="/login/bookingPage" /> }
         </Route>
       </Switch>
     </Router>

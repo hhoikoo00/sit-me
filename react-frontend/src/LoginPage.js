@@ -1,20 +1,21 @@
 import React, { useState } from "react";
-// import { useParams, useHistory } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import"./css/index.css"
 import sitMeLogo from "./assets/logos/sitMeLogo.png"
 import axios from "axios";
 
-const apiURL = "http://localhost:5000/imperial-drp-sit-me/europe-west2/api";
+const apiURL = "http://europe-west2-imperial-drp-sit-me.cloudfunctions.net/api";
 
-const LoginForm = ({ username, setUsername, password, setPassword }) => {
+const LoginForm = ({ username, setUsername, password, setPassword, onLogin, destPath }) => {
+    const history = useHistory();
     
     const inputUsernamePasswordStyle = {
         "border": "0",
         "background": "none",
         "display": "block",
         "margin": "20px auto",
-        "text-align": "left",
-        "border-bottom": "1px solid #979797",
+        "textAlign": "left",
+        "borderBottom": "1px solid #979797",
         "padding": "14px 10px",
         "width": "200px",
         "outline": "none",
@@ -24,27 +25,35 @@ const LoginForm = ({ username, setUsername, password, setPassword }) => {
     const loginButtonStyle = {
         "display": "block",
         "margin": "20px auto",
-        "text-align": "center",
+        "textAlign": "center",
         "border": "2px solid #979797",
         "padding": "14px 10px",
         "width": "200px",
         "outline": "none",
         "color": "white",
-        "border-radius": "10px",
-        "border-color": "#03DAC5",
+        "borderRadius": "10px",
+        "borderColor": "#03DAC5",
         "background": "#03DAC5"
     }
 
     const handleSubmit =  async (event) => {
         event.preventDefault();
         await axios.post(
-            `${apiURL}"/login`,
+            apiURL + "/login",
             {
                 shortcode: username,
                 password: password
             }
         )
-        .then(console.log)
+        .then(res => res.data)
+        .then((data) => {
+            console.log(data);
+            console.log(destPath);
+            if(data.loggedIn){
+                onLogin();
+                history.push("/" + destPath);
+            }
+        })
         .catch(console.log)
         
     }
@@ -75,13 +84,10 @@ const LoginForm = ({ username, setUsername, password, setPassword }) => {
         </form>
     )
 }
-const LoginPage = () => {
+const LoginPage = ({ onLogin }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-
-    // const history = useHistory();
-    
-    // const destPath = useParams().dest || "";
+    const destPath = useParams().dest || "";
 
     const logoStyle = {
         "width": "50vw",
@@ -94,7 +100,7 @@ const LoginPage = () => {
     "width": "100vw",
     "position": "absolute",
     "top": "16vh",
-    "text-align": "center"
+    "textAlign": "center"
     }
 
     return (
@@ -106,6 +112,8 @@ const LoginPage = () => {
                     setUsername={setUsername}
                     password={password}
                     setPassword={setPassword}
+                    onLogin={onLogin}
+                    destPath={destPath}
                 />
             </div>
         </div>
