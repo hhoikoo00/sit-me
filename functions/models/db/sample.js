@@ -25,7 +25,7 @@ const SEATS = [
 /**
  * A class used to model database transactions
  */
-class Database {
+class SampleDB {
   /**
    * Constructor for accessing the database from the server
    * @param {Server} server server object
@@ -110,4 +110,4 @@ class Database {
   }
 }
 
-module.exports = Database;
+module.exports = SampleDB;
