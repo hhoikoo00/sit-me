@@ -22,6 +22,21 @@ const errorHandler = (error, req, res, next) => {
   if (error.name === "LoginFailureError") {
     return res.status(401).send({ error: "Failed to login" });
   }
+  if (error.name === "ParamOutOfRangeError") {
+    return res.status(400).send({ error: `${error.param} out of range` });
+  }
+  if (error.name === "SeatNotFoundError") {
+    return res.status(400).send({ error: "Seat not found" });
+  }
+  if (error.name === "BookingExistsAlreadyError") {
+    return res.status(400).send({ error: "Booking already exists for user" });
+  }
+  if (error.name === "BookingNotFoundError") {
+    return res.status(400).send({ error: "Booking not found" });
+  }
+  if (error.name === "SeatAlreadyBookedError") {
+    return res.status(400).send({ error: "Seat is already booked" });
+  }
 
   next(error);
 };
