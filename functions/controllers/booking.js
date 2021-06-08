@@ -5,6 +5,8 @@ const time = require("../utils/time");
 
 // Maximum duration in minutes (to be defined in a config file)
 const MAX_DURATION = 180;
+// Seat state
+const FREE = "FREE";
 
 bookingRouter.get("/seat/:seatId", async (req, res, next) => {
   const seatId = req.params.seatId;
@@ -13,20 +15,29 @@ bookingRouter.get("/seat/:seatId", async (req, res, next) => {
     return next({ name: "InvalidParamsError", params: ["Seat ID"] });
   }
 
-  const seatInfo = await seats.getSeat(seatId);
-
-  if (seatInfo === null) {
-    return next({ name: "InvalidEntryError", params: ["Seat ID"] });
+  const seat = await seats.getSeat(seatId);
+  if (seat === null) {
+    return next({ name: "SeatNotFoundError" });
   }
 
-  const isBooked = seatInfo.status;
+  const isBooked = seat.status !== FREE;
+
+  const seatInfo = {
+    seatId,
+    isBooked,
+  };
+
+  // If booked, send additional information
   if (isBooked) {
-    const username = seatInfo.username;
-    const startTime = seatInfo.startTime;
-    const endTime = seatInfo.startTime;
-    return res.json({ seatId, isBooked, username, startTime, endTime});
+    const userId = seat.userId;
+    seatInfo.userId = userId;
+
+    const booking = await seats.getBooking(userId);
+    seatInfo.startTime = booking.startTime;
+    seatInfo.endTime = booking.endTime;
   }
-  return res.json({ seatId, isBooked});
+
+  return res.json(seatInfo);
 });
 
 bookingRouter.get("/user/:userId", async (req, res, next) => {
@@ -36,16 +47,19 @@ bookingRouter.get("/user/:userId", async (req, res, next) => {
     return next({ name: "InvalidParamsError", params: ["User ID"] });
   }
 
-  const userInfo = await seats.getBooking(userId);
+  const booking = await seats.getBooking(userId);
+  const hasBooked = booking !== null;
 
-  const hasBooked = (userInfo === null);
+  const userInfo = {
+    userId,
+    hasBooked,
+  };
 
   if (hasBooked) {
-    const seatId = userInfo.seatId;
-    return res.json({ userId, hasBooked, seatId});
-  } else {
-    return res.json({ userId, hasBooked });
+    userInfo.seatId = booking.seatId;
   }
+
+  return res.json(userInfo);
 });
 
 bookingRouter.post("/", async (req, res, next) => {

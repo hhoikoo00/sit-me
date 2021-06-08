@@ -3,12 +3,7 @@ const areaRouter = new express.Router();
 const { areas } = require("../models/models");
 
 areaRouter.get("/", async (req, res, next) => {
-  const { areasInfo, error } = await areas.getInfo();
-
-  if (areasInfo === null) {
-    return next({ name: error });
-  }
-
+  const areasInfo = await areas.getInfo();
   return res.json(areasInfo);
 });
 
@@ -19,11 +14,7 @@ areaRouter.get("/detail/:areaId", async (req, res, next) => {
     return next({ name: "InvalidParamsError", params: ["Area ID"] });
   }
 
-  const { areaDetail, error } = await areas.getDetailedInfo(areaId);
-  if (areaDetail === null) {
-    return next({ name: error });
-  }
-
+  const areaDetail = await areas.getDetailedInfo(areaId);
   return res.json(areaDetail);
 });
 
