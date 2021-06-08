@@ -3,9 +3,6 @@ const logger = require("./logger");
 const requestLogger = (req, res, next) => {
   logger.info("Method:", req.method);
   logger.info("Path:  ", req.path);
-  if (req.method === "GET") {
-    logger.info("Body:  ", req.body);
-  }
   logger.info("------");
   next();
 };
