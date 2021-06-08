@@ -3,8 +3,13 @@ const areaRouter = new express.Router();
 const { areas } = require("../models/models");
 
 areaRouter.get("/", async (req, res, next) => {
-  // TODO implement
-  // areas.getInfo();
+  const { areasInfo, error } = await areas.getInfo();
+
+  if (areasInfo === null) {
+    return next({ name: error });
+  }
+
+  return res.json(areasInfo);
 });
 
 areaRouter.get("/detail/:areaId", async (req, res, next) => {

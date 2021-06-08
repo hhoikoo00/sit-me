@@ -13,7 +13,20 @@ bookingRouter.get("/seat/:seatId", async (req, res, next) => {
     return next({ name: "InvalidParamsError", params: ["Seat ID"] });
   }
 
-  // TODO
+  const seatInfo = await seats.getSeat(seatId);
+
+  if (seatInfo === null) {
+    return next({ name: "InvalidEntryError", params: ["Seat ID"] });
+  }
+
+  const isBooked = seatInfo.status;
+  if (isBooked) {
+    const username = seatInfo.username;
+    const startTime = seatInfo.startTime;
+    const endTime = seatInfo.startTime;
+    return res.json({ seatId, isBooked, username, startTime, endTime});
+  }
+  return res.json({ seatId, isBooked});
 });
 
 bookingRouter.get("/user/:userId", async (req, res, next) => {
@@ -23,7 +36,16 @@ bookingRouter.get("/user/:userId", async (req, res, next) => {
     return next({ name: "InvalidParamsError", params: ["User ID"] });
   }
 
-  // TODO
+  const userInfo = await seats.getBooking(userId);
+
+  const hasBooked = (userInfo === null);
+
+  if (hasBooked) {
+    const seatId = userInfo.seatId;
+    return res.json({ userId, hasBooked, seatId});
+  } else {
+    return res.json({ userId, hasBooked });
+  }
 });
 
 bookingRouter.post("/", async (req, res, next) => {
