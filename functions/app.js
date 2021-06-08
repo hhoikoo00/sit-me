@@ -8,6 +8,7 @@ require("express-async-errors"); // no need for try/catch for error
 const middleware = require("./utils/middleware");
 const samplesRouter = require("./controllers/samples");
 const loginRouter = require("./controllers/login");
+const bookingRouter = require("./controllers/booking");
 
 app.use(cors());
 app.use(express.json());
@@ -15,6 +16,7 @@ app.use(middleware.requestLogger);
 
 app.use("/dbsamples", samplesRouter);
 app.use("/login", loginRouter);
+app.use("/booking", bookingRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
