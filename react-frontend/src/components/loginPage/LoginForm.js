@@ -65,7 +65,6 @@ const LoginForm = ({
         type="password"
         id="password"
         placeholder="Password"
-        value={password}
         onChange={(e) => setPassword(e.target.value)}
         style={inputUsernamePasswordStyle}
       />
