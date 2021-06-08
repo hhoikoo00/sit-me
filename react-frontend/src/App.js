@@ -7,8 +7,8 @@ import {
   Redirect,
 } from "react-router-dom";
 import BookingPage from "./components/bookingPage/BookingPage";
-import LoginPage from "./components/login/LoginPage";
-
+import LoginPage from "./components/loginPage/LoginPage";
+import HomePage from "./components/homePage/HomePage";
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
 
@@ -24,6 +24,9 @@ const App = () => {
         </Route>
         <Route path="/bookingPage">
           {loggedIn ? <BookingPage /> : <Redirect to="/login/bookingPage" />}
+        </Route>
+        <Route path="/">
+          {loggedIn ? <HomePage /> : <Redirect to="/login/" />}
         </Route>
       </Switch>
     </Router>

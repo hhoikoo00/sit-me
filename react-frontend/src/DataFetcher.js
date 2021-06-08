@@ -11,11 +11,9 @@ const attemptLogin = async (shortcode, password) =>
     })
     .then((res) => res.data);
 
-const bookCancelSeat = async (code, doBook) =>
-  axios.put(`apiURL/${code}`, {
-    isBooked: doBook,
-  });
+const getAllAreas = async() =>
+    axios
+      .get(apiURL + "/area")
+      .then(res => res.data);
 
-const getSeatData = async () => axios.get(apiURL + "/dbsamples");
-
-export { attemptLogin, bookCancelSeat, getSeatData };
+export { attemptLogin, getAllAreas };
