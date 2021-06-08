@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import "./css/index.css";
-import sitMeLogo from "./assets/logos/sitMeLogo.png";
+import "../../css/index.css";
+import sitMeLogo from "../../assets/logos/sitMeLogo.png";
 import LoginForm from "./LoginForm";
 
 const LoginPage = ({ onLogin }) => {
