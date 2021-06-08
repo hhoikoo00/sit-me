@@ -13,7 +13,6 @@ const unknownEndpoint = (req, res) => {
 };
 
 const errorHandler = (error, req, res, next) => {
-  /* Client-side error */
   if (error.name === "InvalidParamsError") {
     const paramsString = error.params
         .reduce((acc, cur) => `${acc} or ${cur}`);
@@ -37,11 +36,6 @@ const errorHandler = (error, req, res, next) => {
   }
   if (error.name === "SeatAlreadyBookedError") {
     return res.status(400).send({ error: "Seat is already booked" });
-  }
-
-  /* Server-side error */
-  if (error.name === "ServerFailedBookingError") {
-    return res.status(500).send({ error: "Server failed to book a seat" });
   }
 
   next(error);
