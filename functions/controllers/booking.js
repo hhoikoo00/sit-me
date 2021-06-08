@@ -16,8 +16,23 @@ bookingRouter.post("/", async (req, res, next) => {
   }
 });
 
-bookingRouter.delete("/:seatId", async (req, res, next) => {
+bookingRouter.delete("/:userId", async (req, res, next) => {
+  const userId = req.params.userId;
 
+  if (getUser(userId)) {
+    const seatId = getSeatFromUser(userId);
+
+    freeSeat(seatId);
+    removeUser(userId);
+  } else {
+    return next({
+      name: "WrongUserError",
+      params: ["User ID"],
+    });
+  }
+
+  res.status(204).end();
 });
+
 
 module.exports = bookingRouter;
