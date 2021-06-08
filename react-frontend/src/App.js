@@ -13,20 +13,20 @@ const App = () => {
 
   const onLogin = () => {
     setLoggedIn(true);
-    console.log(loggedIn);
   }
 
   return (
     <Router>
       <Switch>
-        <Route path="/login">
+        <Route path="/login/:dest?">
           <LoginPage onLogin={onLogin}/>
         </Route>
         <Route path="/">
-          { loggedIn ? <BookingPage /> : <Redirect to="/login" /> }
+          { loggedIn ? <BookingPage /> : <Redirect to="/login/" /> }
         </Route>
       </Switch>
     </Router>
   )
 }
+
 export default App;

@@ -3,9 +3,8 @@ const loginRouter = new express.Router();
 const authImperial = require("auth-imperial");
 
 loginRouter.post("/", async (req, res, next) => {
-  const shortcode = req.params.shortcode;
-  const password = req.params.password;
-
+  const shortcode = req.body.shortcode;
+  const password = req.body.password;
   // invalid params: no shortcode or password
   if (shortcode === undefined || password === undefined) {
     return next({ name: "MissingShortcodeOrPasswordError" });
