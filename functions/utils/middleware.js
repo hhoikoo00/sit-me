@@ -15,7 +15,7 @@ const unknownEndpoint = (req, res) => {
 const errorHandler = (error, req, res, next) => {
   if (error.name === "InvalidParamsError") {
     const paramsString = error.params
-        .reduce((acc, cur) => `${acc} or ${cur}`, "");
+        .reduce((acc, cur) => `${acc} or ${cur}`);
 
     return res.status(400).send({ error: `Missing ${paramsString}` });
   }
