@@ -6,8 +6,8 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import BookingPage from "./BookingPage";
-import LoginPage from "./LoginPage";
+import BookingPage from "./components/bookingPage/BookingPage";
+import LoginPage from "./components/login/LoginPage";
 
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { bookCancelSeat, getSeatData } from "./DataFetcher";
+import { bookCancelSeat, getSeatData } from "../../DataFetcher";
 
 const Entries = ({ seats }) =>
   Object.entries(seats).map(([id, { isBooked }]) => {
