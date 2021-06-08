@@ -44,16 +44,16 @@ class SeatsDB {
   }
 
   async book(userId, seatId, startTime, endTime) {
-    // Check if the given user has already booked another seat
-    const booking = await this.getBooking(userId);
-    if (booking !== null) {
-      return { success: false, error: "BookingExistsAlreadyError" };
-    }
-
     // Check if the seat does not already exist
     const seat = await this.getSeat(seatId);
     if (seat === null) {
       return { success: false, error: "SeatNotFoundError" };
+    }
+
+    // Check if the given user has already booked another seat
+    const booking = await this.getBooking(userId);
+    if (booking !== null) {
+      return { success: false, error: "BookingExistsAlreadyError" };
     }
 
     // Check if the seat is already booked
