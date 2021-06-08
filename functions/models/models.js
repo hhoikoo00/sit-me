@@ -1,8 +1,10 @@
-const Server = require("./server");
-const Database = require("./database");
+const Server = require("./firebase/server");
+const SampleDB = require("./db/sample");
 
 const server = new Server();
-const database = new Database(server);
+const sample = new SampleDB(server);
 
-module.exports = database;
+module.exports = {
+  sample,
+};
 

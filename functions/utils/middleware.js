@@ -3,7 +3,6 @@ const logger = require("./logger");
 const requestLogger = (req, res, next) => {
   logger.info("Method:", req.method);
   logger.info("Path:  ", req.path);
-  logger.info("Body:  ", req.body);
   logger.info("------");
   next();
 };
@@ -14,13 +13,15 @@ const unknownEndpoint = (req, res) => {
 };
 
 const errorHandler = (error, req, res, next) => {
-  logger.error(error.message);
+  if (error.name === "InvalidParamsError") {
+    const paramsString = error.params
+        .reduce((acc, cur) => `${acc} or ${cur}`);
 
-  // add any error that needs to be handled
-  // e.g.
-  // if (error.name === "CastError") {
-  //   return res.status(400).send({ error: "malformatted <something>" });
-  // }
+    return res.status(400).send({ error: `Missing ${paramsString}` });
+  }
+  if (error.name === "LoginFailureError") {
+    return res.status(401).send({ error: "Failed to login" });
+  }
 
   next(error);
 };

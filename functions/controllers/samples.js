@@ -1,17 +1,17 @@
 const express = require("express");
-const database = require("../models/models");
 const samplesRouter = new express.Router();
+const { sample } = require("../models/models");
 
 // Get all seats (available or booked)
 samplesRouter.get("/", async (req, res, next) => {
-  const seats = await database.getAllSeats();
+  const seats = await sample.getAllSeats();
   res.json(seats);
 });
 
 // Get the seat with the <id>
 samplesRouter.get("/:id", async (req, res, next) => {
   const id = req.params.id;
-  const seat = await database.getSeat(id);
+  const seat = await sample.getSeat(id);
   res.json(seat);
 });
 
@@ -19,7 +19,7 @@ samplesRouter.get("/:id", async (req, res, next) => {
 samplesRouter.put("/:id", async (req, res, next) => {
   const id = req.params.id;
   const isBooked = req.body.isBooked;
-  const data = await database.updateSeat(id, { isBooked });
+  const data = await sample.updateSeat(id, { isBooked });
   res.json(data);
 });
 
