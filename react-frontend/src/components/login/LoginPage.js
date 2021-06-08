@@ -13,13 +13,13 @@ const LoginPage = ({ onLogin }) => {
     width: "50vw",
     maxWidth: "200px",
     height: "auto",
-    margin: "0 25vw",
+    margin: "9vw 25vw",
   };
 
   const loginSectionStyle = {
     width: "100vw",
     position: "absolute",
-    top: "16vh",
+    top: "17vh",
     textAlign: "center",
   };
 

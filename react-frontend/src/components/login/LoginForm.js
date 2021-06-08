@@ -27,7 +27,7 @@ const LoginForm = ({
 
   const loginButtonStyle = {
     display: "block",
-    margin: "20px auto",
+    margin: "25px auto",
     textAlign: "center",
     border: "2px solid #979797",
     padding: "14px 10px",
