@@ -13,8 +13,11 @@ const unknownEndpoint = (req, res) => {
 };
 
 const errorHandler = (error, req, res, next) => {
-  if (error.name === "MissingShortcodeOrPasswordError") {
-    return res.status(400).send({ error: "Missing Shortcode or Password" });
+  if (error.name === "InvalidParamsError") {
+    const paramsString = error.params
+        .reduce((acc, cur) => `${acc} or ${cur}`, "");
+
+    return res.status(400).send({ error: `Missing ${paramsString}` });
   }
   if (error.name === "LoginFailureError") {
     return res.status(401).send({ error: "Failed to login" });

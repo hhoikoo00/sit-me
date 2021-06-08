@@ -7,7 +7,10 @@ loginRouter.post("/", async (req, res, next) => {
   const password = req.body.password;
   // invalid params: no shortcode or password
   if (shortcode === undefined || password === undefined) {
-    return next({ name: "MissingShortcodeOrPasswordError" });
+    return next({
+      name: "InvalidParamsError",
+      params: ["shortcode", "password"],
+    });
   }
 
   const loggedIn = await authImperial(shortcode, password);
