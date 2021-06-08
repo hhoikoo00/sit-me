@@ -16,6 +16,6 @@ const bookCancelSeat = async (code, doBook) =>
     isBooked: doBook,
   });
 
-const getSeatData = async () => axios.get(apiURL);
+const getSeatData = async () => axios.get(apiURL + "/dbsamples");
 
 export { attemptLogin, bookCancelSeat, getSeatData };
