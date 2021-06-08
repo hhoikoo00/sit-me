@@ -35,6 +35,9 @@ const errorHandler = (error, req, res, next) => {
   if (error.name === "BookingNotFoundError") {
     return res.status(400).send({ error: "Booking not found" });
   }
+  if (error.name === "SeatAlreadyBookedError") {
+    return res.status(400).send({ error: "Seat is already booked" });
+  }
 
   /* Server-side error */
   if (error.name === "ServerFailedBookingError") {
