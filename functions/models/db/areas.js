@@ -42,7 +42,9 @@ class AreasDB {
             isBooked: status !== FREE,
           };
         });
-    return seats;
+
+    const area = await this.getInfo(areaId);
+    return { ...area, seats };
   }
 }
 
