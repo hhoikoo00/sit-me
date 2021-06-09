@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 import "../../css/index.css";
-import { getSeatInfo } from "../../DataFetcher";
+import { getSeatInfo } from "../../utils/DataFetcher";
 import HomePageArrow from "../homePage/HomePageArrow";
 import EnterCodeForm from "./EnterCodeForm";
 

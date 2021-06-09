@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getAllAreas, getBooking } from "../../DataFetcher";
+import { getAllAreas, getBooking } from "../../utils/DataFetcher";
 import "../../css/index.css";
 import HomeAreaTable from "./HomeAreaTable";
 import EnterCodeButton from "../enterCodePage/EnterCodeButton";

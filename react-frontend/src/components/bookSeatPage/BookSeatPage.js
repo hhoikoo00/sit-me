@@ -2,7 +2,7 @@ import { React, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import "../../css/index.css";
-import { bookSeat, getSeatInfo } from "../../DataFetcher";
+import { bookSeat, getSeatInfo } from "../../utils/DataFetcher";
 import DropDownMenu from "./DropDownMenu";
 
 const BookSeatPage = ({ user }) => {

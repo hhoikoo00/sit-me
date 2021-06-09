@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
-import { cancelBooking, getSeatInfo } from "../../DataFetcher";
+import { cancelBooking, getSeatInfo } from "../../utils/DataFetcher";
 import "../../css/index.css";
 import TimeScreen from "./TimeScreen";
 import ButtonScreen from "./ButtonScreen";

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getAreaDetail } from "../../DataFetcher";
+import { getAreaDetail } from "../../utils/DataFetcher";
 import AreaTable from "./AreaTable";
 import { useParams } from "react-router-dom";
 
