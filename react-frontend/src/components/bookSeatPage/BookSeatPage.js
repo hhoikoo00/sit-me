@@ -148,12 +148,12 @@ const BookSeatPage = ({ user }) => {
       </div>
 
       <div className="buttonsContainer" style={buttonsContainerStyle}>
-        <input
+        <button
           type="submit"
           value="SUBMIT"
           style={submitButtonStyle}
           onClick={handleSubmit}
-        />
+        > SUBMIT </button>
         <Link style={linkStyle} to="/entercode">
           <button type="button" style={cancelButtonStyle}>
             {" "}
