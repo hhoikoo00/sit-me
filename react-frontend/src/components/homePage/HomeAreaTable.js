@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 const HomeAreaTableEntry = ({ areaId, areaName, currentNumber, capacity }) => {
   const tableRowStyle = {
     padding: "5vw",
@@ -24,19 +25,22 @@ const HomeAreaTableEntry = ({ areaId, areaName, currentNumber, capacity }) => {
     fontWeight: "bold",
   };
 
+  const ignoreLinkStyle = { textDecoration: "none", color: "inherit" }
   return (
-    <tr>
-      <td style={tableRowStyle}>
-        <div style={capacityIndicatorStyle}>{areaId}</div>
-        <div style={capacityTagStyle}>
-          <div style={floorLabelStyle}> {areaName} </div>
-          <div>
-            {" "}
-            {currentNumber} / {capacity}{" "}
+    <Link style={ignoreLinkStyle} to={"/area/" + areaId}>
+      <tr>
+        <td style={tableRowStyle}>
+          <div style={capacityIndicatorStyle}>{areaId}</div>
+          <div style={capacityTagStyle}>
+            <div style={floorLabelStyle}> {areaName} </div>
+            <div>
+              {" "}
+              {currentNumber} / {capacity}{" "}
+            </div>
           </div>
-        </div>
-      </td>
-    </tr>
+        </td>
+      </tr>
+    </Link>
   );
 };
 
@@ -52,8 +56,6 @@ const Entries = ({ areaInfo }) =>
   ));
 
 const HomeAreaTable = ({ areaInfo }) => {
-  console.log(areaInfo);
-
   const tableStyle = {
     backgroundColor: "white",
     width: "100%",

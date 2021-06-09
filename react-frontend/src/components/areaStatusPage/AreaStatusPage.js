@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { getAllAreas } from "../../DataFetcher";
-import "../../css/index.css";
-import HomeAreaTable from "./HomeAreaTable";
+import { getAreaDetail } from "../../DataFetcher";
+import AreaTable from "./AreaTable";
+import { useParams, Link } from "react-router-dom";
 
-const HomePage = () => {
+import "../../css/index.css";
+import returnArrow from "../../assets/icons/backArrow.png"
+
+const AreaStatusPage = () => {
+  const areaId = useParams().id;
   const [areaInfo, setAreaInfo] = useState([]);
 
   const paddedDivStyle = {
     margin: "10vh 10vw",
-    maxWidth: "100%"
   };
 
   const titleStyle = {
@@ -17,9 +20,9 @@ const HomePage = () => {
 
   useEffect(() => {
     const fetchAreaData = async () => {
-      const areaData = await getAllAreas();
+      const areaData = await getAreaDetail(areaId);
       const newAreaInfo = [];
-      
+
       areaData.forEach((entry) => newAreaInfo.push(entry));
       setAreaInfo(newAreaInfo);
     };
@@ -28,9 +31,10 @@ const HomePage = () => {
   document.body.style = "background: rgb(245, 245, 245)";
   return (
     <div style={paddedDivStyle}>
-      <div style={titleStyle}>Current Status</div>
-      <HomeAreaTable areaInfo={areaInfo} />
+      <Link to="/"><img style={{ width: "5vw" }}src={returnArrow}/></Link>
+      <div style={titleStyle}> Area: {areaId}</div>
+      <AreaTable areaInfo={areaInfo} />
     </div>
   );
 };
-export default HomePage;
+export default AreaStatusPage;

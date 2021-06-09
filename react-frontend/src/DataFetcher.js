@@ -16,4 +16,12 @@ const getAllAreas = async() =>
       .get(apiURL + "/area")
       .then(res => res.data);
 
-export { attemptLogin, getAllAreas };
+const getAreaDetail = async(code) =>
+    axios
+      .get(apiURL + "/area/detail/" + code)
+      .then(res => {
+        console.log(apiURL + "/area/detail/" + code)
+        return res.data}
+        )
+
+export { attemptLogin, getAllAreas, getAreaDetail };
