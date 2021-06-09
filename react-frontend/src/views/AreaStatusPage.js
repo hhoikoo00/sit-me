@@ -8,7 +8,13 @@ import HomePageArrow from "../components/Home/HomePageArrow";
 
 const AreaStatusPage = () => {
   const areaId = useParams().id;
-  const [areaInfo, setAreaInfo] = useState([]);
+  const [areaInfo, setAreaInfo] = useState({
+    areaId: "",
+    areaName: "",
+    currentNumber: 0,
+    capacity: 0,
+    seats: [],
+  });
 
   const paddedDivStyle = {
     margin: "10vh 10vw",
@@ -30,7 +36,7 @@ const AreaStatusPage = () => {
   return (
     <div style={paddedDivStyle}>
       <HomePageArrow margin={"0"} />
-      <div style={titleStyle}> Area: {areaId}</div>
+      <div style={titleStyle}> {areaInfo.areaName}</div>
       <AreaTable areaInfo={areaInfo} />
       <EnterCodeButton />
     </div>

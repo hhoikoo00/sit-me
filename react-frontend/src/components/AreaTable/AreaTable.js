@@ -14,7 +14,7 @@ const AreaTable = ({ areaInfo }) => {
     <table style={tableStyle}>
       <tbody>
         {
-          areaInfo.map((entry) =>
+          areaInfo.seats.map((entry) =>
             <AreaTableEntry
               key={entry.seatId}
               seatId={entry.seatId}

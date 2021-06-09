@@ -28,6 +28,7 @@ const SeatStatusPage = ({ user }) => {
     userId: "",
     startTime: 0,
     endTime: 0,
+    areaName: "",
   });
   const [seatStatus, setSeatStatus] = useState("");
 
@@ -75,7 +76,8 @@ const SeatStatusPage = ({ user }) => {
     <div className="statusPage" style={statusPageStyle}>
       <div className="bookedInfo" style={bookedInfoStyle}>
         <h1>Seat Booked</h1>
-        <h3 className="seatInfo">{seatInfo.seatId}</h3>
+        <h3>{seatInfo.areaName}</h3>
+        <h4 className="seatInfo">{seatInfo.seatId}</h4>
       </div>
 
       <TimeScreen

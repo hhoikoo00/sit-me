@@ -9,7 +9,11 @@ const BookSeatPage = ({ user }) => {
   const history = useHistory();
   const seatId = useParams().seatCode;
 
-  const [seatInfo, setSeatInfo] = useState({});
+  const [seatInfo, setSeatInfo] = useState({
+    seatId: "",
+    isBooked: false,
+    areaName: "",
+  });
   const [hour, setHour] = useState(1);
   const [minutes, setMinutes] = useState(0);
 
@@ -93,7 +97,8 @@ const BookSeatPage = ({ user }) => {
     <div className="bookingHoursPage">
       <div className="bookingInfo" style={bookingInfoStyle}>
         <h1>Booking</h1>
-        <h3 className="seatInfo">{seatInfo.seatId}</h3>
+        <h3>{seatInfo.areaName}</h3>
+        <h4 className="seatInfo">{seatInfo.seatId}</h4>
       </div>
 
       <div style={timeInfoStyle}>
