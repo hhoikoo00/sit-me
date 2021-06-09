@@ -149,7 +149,7 @@ const BookSeatPage = ({ user }) => {
 
       <div className="buttonsContainer" style={buttonsContainerStyle}>
         <button
-          type="submit"
+          type="button"
           value="SUBMIT"
           style={submitButtonStyle}
           onClick={handleSubmit}
