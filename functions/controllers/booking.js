@@ -30,10 +30,6 @@ bookingRouter.get("/seat/:seatId", async (req, res, next) => {
 
   const areaName = await areas.getAreaName(seat.location.areaId);
 
-  console.log("######");
-  console.log(areaName);
-  console.log(isBooked);
-
   if (areaName !== null) {
     seatInfo.areaName = areaName;
   }

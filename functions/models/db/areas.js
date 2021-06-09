@@ -33,7 +33,7 @@ class AreasDB {
       return null;
     }
 
-    return snapshot.name;
+    return snapshot.val().name;
   }
 
   async getDetailedInfo(areaId) {
