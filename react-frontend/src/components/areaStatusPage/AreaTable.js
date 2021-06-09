@@ -57,7 +57,9 @@ const AreaTable = ({ areaInfo }) => {
 
   return (
     <table style={tableStyle}>
-      <Entries areaInfo={areaInfo} />
+      <tbody>
+        <Entries areaInfo={areaInfo} />
+      </tbody>
     </table>
   );
 };

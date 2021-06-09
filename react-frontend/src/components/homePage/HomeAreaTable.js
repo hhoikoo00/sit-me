@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
 const HomeAreaTableEntry = ({ areaId, areaName, currentNumber, capacity }) => {
   const tableRowStyle = {
     padding: "5vw",
@@ -25,22 +26,29 @@ const HomeAreaTableEntry = ({ areaId, areaName, currentNumber, capacity }) => {
     fontWeight: "bold",
   };
 
-  const ignoreLinkStyle = { textDecoration: "none", color: "inherit" }
+  // TODO fix linking
+  const linkStyle = {
+    width: "80vw",
+    height: "10vh",
+    position: "absolute",
+    left: "10vw",
+    zIndex: "1"
+  }
+
   return (
-    <Link style={ignoreLinkStyle} to={"/area/" + areaId}>
-      <tr>
-        <td style={tableRowStyle}>
-          <div style={capacityIndicatorStyle}>{areaId}</div>
-          <div style={capacityTagStyle}>
-            <div style={floorLabelStyle}> {areaName} </div>
-            <div>
-              {" "}
-              {currentNumber} / {capacity}{" "}
+        <tr>
+          <td style={tableRowStyle}>
+            <Link style={linkStyle} to={"/area/" + areaId}/>
+            <div style={capacityIndicatorStyle}>{areaId}</div>
+            <div style={capacityTagStyle}>
+              <div style={floorLabelStyle}> {areaName} </div>
+              <div>
+                {" "}
+                {currentNumber} / {capacity}{" "}
+              </div>
             </div>
-          </div>
-        </td>
-      </tr>
-    </Link>
+          </td>
+        </tr>
   );
 };
 
@@ -66,7 +74,9 @@ const HomeAreaTable = ({ areaInfo }) => {
 
   return (
     <table style={tableStyle}>
-      <Entries areaInfo={areaInfo} />
+      <tbody>
+        <Entries areaInfo={areaInfo} />
+      </tbody>
     </table>
   );
 };
