@@ -3,19 +3,28 @@ import { Link } from "react-router-dom";
 
 const HomeAreaTableEntry = ({ areaId, areaName, currentNumber, capacity }) => {
   const tableRowStyle = {
+    margin: "3vw 0",
     padding: "5vw",
-    fontSize: "3vw",
+    fontSize: "3.5vw",
     display: "flex",
     justifyContent: "spaceAround",
+    backgroundColor: "white",
+    borderRadius: "2.5vw",
   };
 
   const occupancy = currentNumber / capacity;
   const colour = occupancy < 0.5 ? "green" : occupancy < 1 ? "orange" : "red";
   const capacityIndicatorStyle = {
     backgroundColor: `${colour}`,
-    padding: "4vw",
+    padding: "0.5vw",
     fontWeight: "bolder",
     borderRadius: "2.5vw",
+  };
+
+  const areaIdStyle = {
+    margin: "auto 0",
+    fontWeight: "bolder",
+    verticalAlign: "middle",
   };
 
   const capacityTagStyle = {
@@ -29,31 +38,31 @@ const HomeAreaTableEntry = ({ areaId, areaName, currentNumber, capacity }) => {
   // TODO fix linking
   const linkStyle = {
     width: "80vw",
-    height: "10vh",
+    height: "20vw",
     position: "absolute",
     left: "10vw",
+    margin: "-5vw 0 0 0",
     zIndex: "1",
   };
 
   return (
-    <tr>
-      <td style={tableRowStyle}>
-        <Link style={linkStyle} to={"/area/" + areaId} />
-        <div style={capacityIndicatorStyle}>{areaId}</div>
-        <div style={capacityTagStyle}>
-          <div style={floorLabelStyle}> {areaName} </div>
-          <div style={{ fontSize: "75%" }}>
-            Availability: {capacity - currentNumber} / {capacity}{" "}
-          </div>
+    <div style={tableRowStyle}>
+      <Link style={linkStyle} to={"/area/" + areaId} />
+      <div style={areaIdStyle}>{areaId}</div>
+      <div style={capacityTagStyle}>
+        <div style={floorLabelStyle}> {areaName} </div>
+        <div style={{ fontSize: "75%" }}>
+          Availability: {capacity - currentNumber} / {capacity}
+          <div style={capacityIndicatorStyle} />
         </div>
-      </td>
-    </tr>
+      </div>
+    </div>
   );
 };
 
 const HomeAreaTable = ({ areaInfo }) => {
   const tableStyle = {
-    backgroundColor: "white",
+    backgroundColor: "rgba(0,0,0,0)",
     width: "100%",
     borderRadius: "10px",
     borderCollapse: "collapse",
@@ -61,19 +70,17 @@ const HomeAreaTable = ({ areaInfo }) => {
   };
 
   return (
-    <table style={tableStyle}>
-      <tbody>
-        {areaInfo.map((entry) => (
-          <HomeAreaTableEntry
-            key={entry.areaId}
-            areaId={entry.areaId}
-            areaName={entry.areaName}
-            currentNumber={entry.currentNumber}
-            capacity={entry.capacity}
-          />
-        ))}
-      </tbody>
-    </table>
+    <div style={tableStyle}>
+      {areaInfo.map((entry) => (
+        <HomeAreaTableEntry
+          key={entry.areaId}
+          areaId={entry.areaId}
+          areaName={entry.areaName}
+          currentNumber={entry.currentNumber}
+          capacity={entry.capacity}
+        />
+      ))}
+    </div>
   );
 };
 
