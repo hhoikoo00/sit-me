@@ -12,7 +12,7 @@ class AreasDB {
     this.seats = this.database.child(SEATS);
   }
 
-  async getInfo() {
+  async getInfo(areaId) {
     const areaObject = (await this.areas.get()).val();
     const areaList = Object.entries(areaObject)
         .map(([id, area]) => {
@@ -23,7 +23,13 @@ class AreasDB {
             capacity: area.capacity,
           };
         });
-    return areaList;
+
+    // If no areaId specified, it returns info for all areas
+    if (areaId === undefined) {
+      return areaList;
+    } else {
+      return areaList.find((area) => area.areaId === areaId);
+    }
   }
 
   async getDetailedInfo(areaId) {
