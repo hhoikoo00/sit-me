@@ -69,7 +69,7 @@ const EnterCodePage = () => {
             onChange={(e)=>setCode(e.target.value)}
             style={enterCodeField}
           />
-          <input type="submit" value="SUBMIT" style={submitButtonStyle}/>
+          <button type="submit" value="SUBMIT" style={submitButtonStyle}> SUBMIT </button>
         </form>
       </div>
     </div>
