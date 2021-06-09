@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router";
 import "../../css/index.css";
 import { getSeatInfo } from "../../DataFetcher";
+import HomePageArrow from "../homePage/HomePageArrow";
 
 const EnterCodePage = () => {
   const [code, setCode] = useState("");
@@ -55,6 +56,7 @@ const EnterCodePage = () => {
 
   return (
     <div className="enterCodePage">
+      <HomePageArrow margin="10%"/>
       {/* <button className="backButton"></button> */}
       <div className="EnterCodeSection" style={enterCodePageStyle}>
         <form action="seatCodeSubmission" onSubmit={handleSubmit}>

@@ -28,8 +28,13 @@ const SeatStatusPage = ({ user }) => {
 
   const startDate = new Date(seatInfo.startTime);
   const endDate = new Date(seatInfo.endTime);
-  const startTime = `${startDate.getHours()}:${startDate.getMinutes()}`;
-  const endTime = `${endDate.getHours()}:${endDate.getMinutes()}`;
+
+  const formatTimeVal = (timeVal) =>
+    timeVal
+      .toLocaleString("en-US", { minimumIntegerDigits: 2, useGrouping: false });
+
+  const startTime = `${formatTimeVal(startDate.getHours())}:${formatTimeVal(startDate.getMinutes())}`;
+  const endTime  = `${formatTimeVal(endDate.getHours())}:${formatTimeVal(endDate.getMinutes())}`;
 
   const isMine = user === seatInfo.userId;
   const seatStatus = "Studying";
@@ -83,11 +88,11 @@ const SeatStatusPage = ({ user }) => {
     event.preventDefault();
     cancelBooking(user);
     goHome();
-  }
+  };
 
   const goHome = () => {
-    history.push("/")
-  }
+    history.push("/");
+  };
 
   return (
     <div className="statusPage" style={statusPageStyle}>

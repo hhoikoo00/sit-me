@@ -56,7 +56,7 @@ const App = () => {
           <Redirect from="/area/:id" to="/login/area/:id" />
         )}
         <Route path="/">
-          {loggedIn ? <HomePage /> : <Redirect to="/login/" />}
+          {loggedIn ? <HomePage user={user} /> : <Redirect to="/login/" />}
         </Route>
       </Switch>
     </Router>

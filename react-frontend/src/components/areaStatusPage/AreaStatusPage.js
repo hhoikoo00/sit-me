@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { getAreaDetail } from "../../DataFetcher";
 import AreaTable from "./AreaTable";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import "../../css/index.css";
-import returnArrow from "../../assets/icons/backArrow.png"
+import EnterCodeButton from "../enterCodePage/EnterCodeButton";
+import HomePageArrow from "../homePage/HomePageArrow";
 
 const AreaStatusPage = () => {
   const areaId = useParams().id;
@@ -31,9 +32,10 @@ const AreaStatusPage = () => {
   document.body.style = "background: rgb(245, 245, 245)";
   return (
     <div style={paddedDivStyle}>
-      <Link to="/"><img style={{ width: "5vw" }}src={returnArrow}/></Link>
+      <HomePageArrow margin={"0"} />
       <div style={titleStyle}> Area: {areaId}</div>
       <AreaTable areaInfo={areaInfo} />
+      <EnterCodeButton />
     </div>
   );
 };

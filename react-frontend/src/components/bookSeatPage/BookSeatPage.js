@@ -104,7 +104,8 @@ const BookSeatPage = ({ user }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    bookSeat(seatId, user, hour * 60 + minutes);
+    bookSeat(seatId, user, parseFloat(hour * 60) + parseFloat(minutes));
+    history.push("/seatStatus/"+ seatId)
   };
 
   return (
