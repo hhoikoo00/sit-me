@@ -9,6 +9,7 @@ const LoginForm = ({
   setPassword,
   onLogin,
   destPath,
+  param
 }) => {
   const history = useHistory();
 
@@ -44,8 +45,12 @@ const LoginForm = ({
     await attemptLogin(username, password)
       .then((data) => {
         if (data.loggedIn) {
-          onLogin();
-          history.push("/" + destPath);
+          onLogin(username);
+          if(destPath === "") {
+            history.push("/" + destPath);
+          } else {
+            history.push("/" + destPath + "/" + param);
+          }
         }
       })
       .catch(console.log);
