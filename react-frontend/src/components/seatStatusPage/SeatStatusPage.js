@@ -2,10 +2,13 @@ import { React, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import { cancelBooking, getSeatInfo } from "../../DataFetcher";
 import "../../css/index.css";
+import TimeScreen from "./TimeScreen";
+import ButtonScreen from "./ButtonScreen";
 
 const SeatStatusPage = ({ user }) => {
   const seatId = useParams().seatCode;
   const history = useHistory();
+
   const [seatInfo, setSeatInfo] = useState({
     seatId: seatId,
     isBooked: false,
@@ -30,11 +33,17 @@ const SeatStatusPage = ({ user }) => {
   const endDate = new Date(seatInfo.endTime);
 
   const formatTimeVal = (timeVal) =>
-    timeVal
-      .toLocaleString("en-US", { minimumIntegerDigits: 2, useGrouping: false });
+    timeVal.toLocaleString("en-US", {
+      minimumIntegerDigits: 2,
+      useGrouping: false,
+    });
 
-  const startTime = `${formatTimeVal(startDate.getHours())}:${formatTimeVal(startDate.getMinutes())}`;
-  const endTime  = `${formatTimeVal(endDate.getHours())}:${formatTimeVal(endDate.getMinutes())}`;
+  const startTime = `${formatTimeVal(startDate.getHours())}:${formatTimeVal(
+    startDate.getMinutes()
+  )}`;
+  const endTime = `${formatTimeVal(endDate.getHours())}:${formatTimeVal(
+    endDate.getMinutes()
+  )}`;
 
   const isMine = user === seatInfo.userId;
   const seatStatus = "Studying";
@@ -50,38 +59,6 @@ const SeatStatusPage = ({ user }) => {
     margin: "10vw 25vw",
     textAlign: "center",
     fontSize: "5vw",
-  };
-
-  const bookingStatusStyle = {
-    width: "80vw",
-    maxWidth: "auto",
-    height: "auto",
-    margin: "10vw auto",
-    textAlign: "center",
-    fontSize: "5vw",
-    border: "2px solid #F66666",
-    borderRadius: "20px",
-    borderColor: "white",
-    background: "white",
-  };
-
-  const buttonsContainerStyle = {
-    margin: "15vw auto",
-  };
-
-  const statusButtonStyle = {
-    display: "block",
-    textAlign: "center",
-    border: "2px solid #03DAC5",
-    padding: "20px 15px",
-    width: "200px",
-    outline: "none",
-    color: "white",
-    borderRadius: "1000px",
-    borderColor: "#03DAC5",
-    background: "#03DAC5",
-    fontSize: "1.2rem",
-    margin: "8px auto",
   };
 
   const cancelSeat = (event) => {
@@ -101,30 +78,13 @@ const SeatStatusPage = ({ user }) => {
         <h3 className="seatInfo">{seatInfo.seatId}</h3>
       </div>
 
-      <main className="bookingStatus" style={bookingStatusStyle}>
-        <h1 className="time">
-          {startTime} - {endTime}
-        </h1>
-        <h3 className="seatStatus">Status: {seatStatus}</h3>
-      </main>
+      <TimeScreen
+        startTime={startTime}
+        endTime={endTime}
+        seatStatus={seatStatus}
+      />
 
-      <div className="buttonsContainer" style={buttonsContainerStyle}>
-        {/* <button type="button" style={statusButtonStyle}>
-          15 MIN BREAK
-        </button> */}
-
-        {isMine ? (
-          <button type="button" style={statusButtonStyle} onClick={cancelSeat}>
-            FINISH
-          </button>
-        ) : (
-          <div />
-        )}
-
-        <button type="button" style={statusButtonStyle} onClick={goHome}>
-          HOME
-        </button>
-      </div>
+      <ButtonScreen isMine={isMine} cancelSeat={cancelSeat} goHome={goHome} />
     </div>
   );
 };

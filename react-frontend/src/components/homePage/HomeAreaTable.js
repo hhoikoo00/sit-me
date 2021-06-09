@@ -9,8 +9,9 @@ const HomeAreaTableEntry = ({ areaId, areaName, currentNumber, capacity }) => {
     justifyContent: "spaceAround",
   };
 
-  const red = (256 * currentNumber) / capacity;
+  const red = currentNumber / capacity;
   const green = 256 - red;
+
   const capacityIndicatorStyle = {
     backgroundColor: `rgb(${red}, ${green}, 0)`,
     padding: "4vw",

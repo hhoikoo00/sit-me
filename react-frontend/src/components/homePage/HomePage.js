@@ -38,7 +38,9 @@ const HomePage = ({ user }) => {
     fetchAreaData();
     fetchUserBooking();
   }, []);
+
   document.body.style = "background: rgb(245, 245, 245)";
+  
   return (
     <div style={paddedDivStyle}>
       <div style={titleStyle}>Current Status</div>
