@@ -26,6 +26,16 @@ class AreasDB {
     return areaList;
   }
 
+  async getAreaName(areaId) {
+    const snapshot = await this.areas.child(areaId).get();
+
+    if (!snapshot.exists()) {
+      return null;
+    }
+
+    return snapshot.name;
+  }
+
   async getDetailedInfo(areaId) {
     const seatsObject = (await this.seats.get()).val();
     const seats = Object.entries(seatsObject)

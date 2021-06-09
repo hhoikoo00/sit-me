@@ -29,6 +29,7 @@ class SeatsDB {
       ...snapshot.val(),
       seatId,
     };
+
     return seat;
   }
 

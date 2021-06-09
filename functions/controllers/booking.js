@@ -1,6 +1,7 @@
 const express = require("express");
 const bookingRouter = new express.Router();
 const { seats } = require("../models/models");
+const { areas } = require("../models/models");
 const time = require("../utils/time");
 
 // Maximum duration in minutes (to be defined in a config file)
@@ -26,6 +27,16 @@ bookingRouter.get("/seat/:seatId", async (req, res, next) => {
     seatId,
     isBooked,
   };
+
+  const areaName = await areas.getAreaName(seat.location.areaId);
+
+  console.log("######");
+  console.log(areaName);
+  console.log(isBooked);
+
+  if (areaName !== null) {
+    seatInfo.areaName = areaName;
+  }
 
   // If booked, send additional information
   if (isBooked) {

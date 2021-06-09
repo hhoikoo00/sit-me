@@ -20,9 +20,9 @@ loginRouter.post("/", async (req, res, next) => {
   // Check if it matches testAccounts
   const testAccount = testAccounts.filter((testAccount) =>
     testAccount.username === shortcode);
-  const isPasswordCorrect = testAccount.password === password;
 
   if (testAccount !== null) {
+    const isPasswordCorrect = testAccount.password === password;
     return res.json({ isPasswordCorrect, shortcode });
   }
 
