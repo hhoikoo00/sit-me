@@ -45,7 +45,7 @@ const LoginForm = ({
     await attemptLogin(username, password)
       .then((data) => {
         if (data.loggedIn) {
-          onLogin();
+          onLogin(username);
           if(destPath === "") {
             history.push("/" + destPath);
           } else {

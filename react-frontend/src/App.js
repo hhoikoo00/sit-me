@@ -6,15 +6,19 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import BookingPage from "./components/bookingPage/BookingPage";
 import LoginPage from "./components/loginPage/LoginPage";
 import HomePage from "./components/homePage/HomePage";
 import AreaStatusPage from "./components/areaStatusPage/AreaStatusPage";
+import EnterCodePage from "./components/enterCodePage/EnterCodePage";
+import BookSeatPage from "./components/bookSeatPage/BookSeatPage";
+import SeatStatusPage from "./components/seatStatusPage/SeatStatusPage";
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [user, setUser] = useState("");
 
-  const onLogin = () => {
+  const onLogin = (userId) => {
     setLoggedIn(true);
+    setUser(userId);
   };
 
   return (
@@ -23,10 +27,26 @@ const App = () => {
         <Route path="/login/:dest?/:param?">
           <LoginPage onLogin={onLogin} />
         </Route>
-        
-        <Route path="/bookingPage">
-          {loggedIn ? <BookingPage /> : <Redirect to="/login/bookingPage" />}
+
+        <Route path="/entercode">
+          {loggedIn ? <EnterCodePage /> : <Redirect to="/login/entercode" />}
         </Route>
+
+        {loggedIn ? (
+          <Route path="/bookSeat/:seatCode">
+            <BookSeatPage user={user} />
+          </Route>
+        ) : (
+          <Redirect from="/bookSeat/:seatCode" to="/login/bookSeat/:seatCode" />
+        )}
+
+        {loggedIn ? (
+          <Route path="/seatStatus/:seatCode">
+            <SeatStatusPage user={user} />
+          </Route>
+        ) : (
+          <Redirect from="/seatStatus/:seatCode" to="/login/seatStatus/:seatCode" />
+        )}
 
         {loggedIn ? (
           <Route path="/area/:id">
@@ -35,7 +55,6 @@ const App = () => {
         ) : (
           <Redirect from="/area/:id" to="/login/area/:id" />
         )}
-
         <Route path="/">
           {loggedIn ? <HomePage /> : <Redirect to="/login/" />}
         </Route>
