@@ -11,6 +11,7 @@ module.exports = {
     "es6" : true
   },
   extends: [
+    "google",
     "eslint:recommended",
     "plugin:react/recommended"
   ],
