@@ -4,16 +4,15 @@ import { Link } from "react-router-dom";
 const HomeAreaTableEntry = ({ areaId, areaName, currentNumber, capacity }) => {
   const tableRowStyle = {
     padding: "5vw",
-    fontSize: "4vw",
+    fontSize: "3vw",
     display: "flex",
     justifyContent: "spaceAround",
   };
 
-  const red = currentNumber / capacity;
-  const green = 256 - red;
-
+  const occupancy = currentNumber / capacity;
+  const colour = occupancy < 0.5 ? "green" : occupancy < 1 ? "orange" : "red";
   const capacityIndicatorStyle = {
-    backgroundColor: `rgb(${red}, ${green}, 0)`,
+    backgroundColor: `${colour}`,
     padding: "4vw",
     fontWeight: "bolder",
     borderRadius: "2.5vw",
@@ -39,13 +38,12 @@ const HomeAreaTableEntry = ({ areaId, areaName, currentNumber, capacity }) => {
   return (
     <tr>
       <td style={tableRowStyle}>
-        <Link style={linkStyle} to={"/area/" + areaId}/>
+        <Link style={linkStyle} to={"/area/" + areaId} />
         <div style={capacityIndicatorStyle}>{areaId}</div>
         <div style={capacityTagStyle}>
           <div style={floorLabelStyle}> {areaName} </div>
-          <div>
-            {" "}
-            {currentNumber} / {capacity}{" "}
+          <div style={{ fontSize: "75%" }}>
+            Availability: {capacity - currentNumber} / {capacity}{" "}
           </div>
         </div>
       </td>

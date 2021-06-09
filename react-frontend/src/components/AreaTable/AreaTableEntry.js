@@ -29,8 +29,8 @@ const AreaTableEntry = ({ seatId, isBooked }) => {
         <div style={capacityIndicatorStyle}></div>
         <div style={capacityTagStyle}>
           <div style={floorLabelStyle}>Seat</div>
-          <div>
-            #{seatId}
+          <div style={{ fontSize: "75%" }}>
+            <b>Code: </b><i>{seatId}</i>
           </div>
         </div>
       </td>
