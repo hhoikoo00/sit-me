@@ -45,7 +45,10 @@ const App = () => {
             <SeatStatusPage user={user} />
           </Route>
         ) : (
-          <Redirect from="/seatStatus/:seatCode" to="/login/seatStatus/:seatCode" />
+          <Redirect
+            from="/seatStatus/:seatCode"
+            to="/login/seatStatus/:seatCode"
+          />
         )}
 
         {loggedIn ? (

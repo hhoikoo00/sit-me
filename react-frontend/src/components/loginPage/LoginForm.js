@@ -9,7 +9,7 @@ const LoginForm = ({
   setPassword,
   onLogin,
   destPath,
-  param
+  param,
 }) => {
   const history = useHistory();
 
@@ -43,17 +43,17 @@ const LoginForm = ({
   const handleSubmit = async (event) => {
     event.preventDefault();
     await attemptLogin(username, password)
-      .then((data) => {
-        if (data.loggedIn) {
-          onLogin(username);
-          if(destPath === "") {
-            history.push("/" + destPath);
-          } else {
-            history.push("/" + destPath + "/" + param);
+        .then((data) => {
+          if (data.loggedIn) {
+            onLogin(username);
+            if (destPath === "") {
+              history.push("/" + destPath);
+            } else {
+              history.push("/" + destPath + "/" + param);
+            }
           }
-        }
-      })
-      .catch(console.log);
+        })
+        .catch(console.log);
   };
 
   return (
@@ -73,7 +73,10 @@ const LoginForm = ({
         onChange={(e) => setPassword(e.target.value)}
         style={inputUsernamePasswordStyle}
       />
-      <button type="submit" value="LOGIN" style={loginButtonStyle}> LOGIN </button>
+      <button type="submit" value="LOGIN" style={loginButtonStyle}>
+        {" "}
+        LOGIN{" "}
+      </button>
     </form>
   );
 };

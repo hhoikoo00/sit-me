@@ -33,23 +33,23 @@ const HomeAreaTableEntry = ({ areaId, areaName, currentNumber, capacity }) => {
     height: "10vh",
     position: "absolute",
     left: "10vw",
-    zIndex: "1"
-  }
+    zIndex: "1",
+  };
 
   return (
-        <tr>
-          <td style={tableRowStyle}>
-            <Link style={linkStyle} to={"/area/" + areaId}/>
-            <div style={capacityIndicatorStyle}>{areaId}</div>
-            <div style={capacityTagStyle}>
-              <div style={floorLabelStyle}> {areaName} </div>
-              <div>
-                {" "}
-                {currentNumber} / {capacity}{" "}
-              </div>
-            </div>
-          </td>
-        </tr>
+    <tr>
+      <td style={tableRowStyle}>
+        <Link style={linkStyle} to={"/area/" + areaId}/>
+        <div style={capacityIndicatorStyle}>{areaId}</div>
+        <div style={capacityTagStyle}>
+          <div style={floorLabelStyle}> {areaName} </div>
+          <div>
+            {" "}
+            {currentNumber} / {capacity}{" "}
+          </div>
+        </div>
+      </td>
+    </tr>
   );
 };
 

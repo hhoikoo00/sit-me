@@ -39,10 +39,10 @@ const SeatStatusPage = ({ user }) => {
     });
 
   const startTime = `${formatTimeVal(startDate.getHours())}:${formatTimeVal(
-    startDate.getMinutes()
+      startDate.getMinutes(),
   )}`;
   const endTime = `${formatTimeVal(endDate.getHours())}:${formatTimeVal(
-    endDate.getMinutes()
+      endDate.getMinutes(),
   )}`;
 
   const isMine = user === seatInfo.userId;
