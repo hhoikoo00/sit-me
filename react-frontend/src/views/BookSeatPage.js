@@ -1,13 +1,14 @@
 import { React, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import { Link } from "react-router-dom";
-import "../../css/index.css";
-import { bookSeat, getSeatInfo } from "../../utils/DataFetcher";
-import DropDownMenu from "./DropDownMenu";
+import { bookSeat, getSeatInfo } from "../utils/DataFetcher";
+
+import DropDownMenu from "../components/BookSeat/DropDownMenu";
 
 const BookSeatPage = ({ user }) => {
   const history = useHistory();
   const seatId = useParams().seatCode;
+
   const [seatInfo, setSeatInfo] = useState({});
   const [hour, setHour] = useState(1);
   const [minutes, setMinutes] = useState(0);
@@ -71,7 +72,7 @@ const BookSeatPage = ({ user }) => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
+    (async () => {
       const seatData = await getSeatInfo(seatId);
       if (seatData.isBooked) {
         alert(`Seat: ${seatId}  is already booked! Please find another!`);
@@ -79,8 +80,7 @@ const BookSeatPage = ({ user }) => {
       } else {
         setSeatInfo(seatData);
       }
-    };
-    fetchData();
+    })();
   }, []);
 
   const handleSubmit = async (event) => {
@@ -119,12 +119,10 @@ const BookSeatPage = ({ user }) => {
           style={submitButtonStyle}
           onClick={handleSubmit}
         >
-          {" "}
-          SUBMIT{" "}
+          SUBMIT
         </button>
         <Link style={linkStyle} to="/entercode">
           <button type="button" style={cancelButtonStyle}>
-            {" "}
             CANCEL
           </button>
         </Link>

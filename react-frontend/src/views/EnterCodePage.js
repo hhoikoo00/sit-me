@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
-import "../../css/index.css";
-import { getSeatInfo } from "../../utils/DataFetcher";
-import HomePageArrow from "../homePage/HomePageArrow";
-import EnterCodeForm from "./EnterCodeForm";
+import { getSeatInfo } from "../utils/DataFetcher";
+
+import HomePageArrow from "../components/Home/HomePageArrow";
+import EnterCodeForm from "../components/EnterCode/EnterCodeForm";
 
 const EnterCodePage = () => {
   const [code, setCode] = useState("");

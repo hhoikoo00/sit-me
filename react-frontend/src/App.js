@@ -6,12 +6,14 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import LoginPage from "./components/loginPage/LoginPage";
-import HomePage from "./components/homePage/HomePage";
-import AreaStatusPage from "./components/areaStatusPage/AreaStatusPage";
-import EnterCodePage from "./components/enterCodePage/EnterCodePage";
-import BookSeatPage from "./components/bookSeatPage/BookSeatPage";
-import SeatStatusPage from "./components/seatStatusPage/SeatStatusPage";
+
+import LoginPage from "./views/LoginPage";
+import HomePage from "./views/HomePage";
+import AreaStatusPage from "./views/AreaStatusPage";
+import EnterCodePage from "./views/EnterCodePage";
+import BookSeatPage from "./views/BookSeatPage";
+import SeatStatusPage from "./views/SeatStatusPage";
+
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState("");
@@ -20,6 +22,8 @@ const App = () => {
     setLoggedIn(true);
     setUser(userId);
   };
+
+  // TODO refactror redirect component
 
   return (
     <Router>
@@ -58,6 +62,7 @@ const App = () => {
         ) : (
           <Redirect from="/area/:id" to="/login/area/:id" />
         )}
+
         <Route path="/">
           {loggedIn ? <HomePage user={user} /> : <Redirect to="/login/" />}
         </Route>

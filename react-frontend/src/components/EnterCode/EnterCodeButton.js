@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const SeatStatusButton = ({ seatId }) => {
+const EnterCodeButton = () => {
   const buttonStyle = {
     display: "block",
     textAlign: "center",
@@ -16,13 +16,14 @@ const SeatStatusButton = ({ seatId }) => {
     fontSize: "1.2rem",
     margin: "8px auto",
   };
+
   return (
-    <Link to={"/seatStatus/" + seatId} style={{ textDecoration: "none" }}>
+    <Link to="/entercode" style={{ textDecoration: "none" }}>
       <button type="button" style={buttonStyle}>
-        View Booking
+        Enter Code
       </button>
     </Link>
   );
 };
 
-export default SeatStatusButton;
+export default EnterCodeButton;

@@ -1,4 +1,5 @@
 import React from "react";
+
 const AreaTableEntry = ({ seatId, isBooked }) => {
   const tableRowStyle = {
     padding: "5vw",

@@ -53,17 +53,6 @@ const HomeAreaTableEntry = ({ areaId, areaName, currentNumber, capacity }) => {
   );
 };
 
-const Entries = ({ areaInfo }) =>
-  areaInfo.map((entry) => (
-    <HomeAreaTableEntry
-      key={entry.areaId}
-      areaId={entry.areaId}
-      areaName={entry.areaName}
-      currentNumber={entry.currentNumber}
-      capacity={entry.capacity}
-    />
-  ));
-
 const HomeAreaTable = ({ areaInfo }) => {
   const tableStyle = {
     backgroundColor: "white",
@@ -76,7 +65,15 @@ const HomeAreaTable = ({ areaInfo }) => {
   return (
     <table style={tableStyle}>
       <tbody>
-        <Entries areaInfo={areaInfo} />
+        {areaInfo.map((entry) => (
+          <HomeAreaTableEntry
+            key={entry.areaId}
+            areaId={entry.areaId}
+            areaName={entry.areaName}
+            currentNumber={entry.currentNumber}
+            capacity={entry.capacity}
+          />
+        ))}
       </tbody>
     </table>
   );

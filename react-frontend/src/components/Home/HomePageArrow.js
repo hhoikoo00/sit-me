@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
 import returnArrow from "../../assets/icons/backArrow.png";
+
 const HomePageArrow = ({ margin }) => {
   return (
     <Link to="/">

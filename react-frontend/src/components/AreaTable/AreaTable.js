@@ -1,15 +1,6 @@
 import React from "react";
 import AreaTableEntry from "./AreaTableEntry";
 
-const Entries = ({ areaInfo }) =>
-  areaInfo.map((entry) => (
-    <AreaTableEntry
-      key={entry.seatId}
-      seatId={entry.seatId}
-      isBooked={entry.isBooked}
-    />
-  ));
-
 const AreaTable = ({ areaInfo }) => {
   const tableStyle = {
     backgroundColor: "white",
@@ -22,7 +13,14 @@ const AreaTable = ({ areaInfo }) => {
   return (
     <table style={tableStyle}>
       <tbody>
-        <Entries areaInfo={areaInfo} />
+        {
+          areaInfo.map((entry) =>
+            <AreaTableEntry
+              key={entry.seatId}
+              seatId={entry.seatId}
+              isBooked={entry.isBooked}
+            />)
+        }
       </tbody>
     </table>
   );

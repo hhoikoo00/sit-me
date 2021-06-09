@@ -42,18 +42,16 @@ const LoginForm = ({
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await attemptLogin(username, password)
-        .then((data) => {
-          if (data.loggedIn) {
-            onLogin(username);
-            if (destPath === "") {
-              history.push("/" + destPath);
-            } else {
-              history.push("/" + destPath + "/" + param);
-            }
-          }
-        })
-        .catch(console.log);
+    const data = await attemptLogin(username, password);
+
+    if (data.loggedIn) {
+      onLogin(username);
+      if (destPath === "") {
+        history.push("/" + destPath);
+      } else {
+        history.push("/" + destPath + "/" + param);
+      }
+    }
   };
 
   return (
@@ -74,8 +72,7 @@ const LoginForm = ({
         style={inputUsernamePasswordStyle}
       />
       <button type="submit" value="LOGIN" style={loginButtonStyle}>
-        {" "}
-        LOGIN{" "}
+        LOGIN
       </button>
     </form>
   );
