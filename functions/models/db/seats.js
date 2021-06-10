@@ -1,5 +1,6 @@
 const time = require("../../utils/time");
 const logger = require("../../utils/logger");
+const timeout = require("../bookingTimeout");
 const {
   SEATS, BOOKINGS, AREAS,
   FREE, BOOKED, BREAK,
@@ -96,6 +97,9 @@ class SeatsDB {
     // Update seat table and booking table ATOMICALLY
     this.database.update(updates);
 
+    // Add a timeout for removing the booking automatically
+    timeout.createTimeout(userId, startTime.getTime(), endTime.getTime(), this);
+
     return { success: true };
   }
 
@@ -122,6 +126,9 @@ class SeatsDB {
 
     // Update seat table and booking table ATOMICALLY
     this.database.update(updates);
+
+    // Remove the timeout before it executes again
+    timeout.removeTimeout(userId);
 
     return { success: true };
   }
