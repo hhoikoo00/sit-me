@@ -13,18 +13,13 @@ const HomeAreaTableEntry = ({ areaId, areaName, currentNumber, capacity }) => {
   };
 
   const occupancy = currentNumber / capacity;
-  const colour = occupancy < 0.5 ? "green" : occupancy < 1 ? "orange" : "red";
+  const colour =
+    occupancy < 0.5 ? "green" : occupancy < 1 ? "orange" : "#F66666";
   const capacityIndicatorStyle = {
     backgroundColor: `${colour}`,
-    padding: "0.5vw",
+    padding: "4vw",
     fontWeight: "bolder",
-    borderRadius: "2.5vw",
-  };
-
-  const areaIdStyle = {
-    margin: "auto 0",
-    fontWeight: "bolder",
-    verticalAlign: "middle",
+    borderRadius: "5vw",
   };
 
   const capacityTagStyle = {
@@ -48,12 +43,11 @@ const HomeAreaTableEntry = ({ areaId, areaName, currentNumber, capacity }) => {
   return (
     <div style={tableRowStyle}>
       <Link style={linkStyle} to={"/area/" + areaId} />
-      <div style={areaIdStyle}>{areaId}</div>
+      <div style={capacityIndicatorStyle} />
       <div style={capacityTagStyle}>
         <div style={floorLabelStyle}> {areaName} </div>
         <div style={{ fontSize: "75%" }}>
           Availability: {capacity - currentNumber} / {capacity}
-          <div style={capacityIndicatorStyle} />
         </div>
       </div>
     </div>

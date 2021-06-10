@@ -1,6 +1,19 @@
 import React from "react";
 
-const TimeScreen = ({ startTime, endTime, seatStatus }) => {
+const formatTime = (date) => {
+  const formatTimeVal = (timeVal) =>
+    timeVal.toLocaleString("en-US", {
+      minimumIntegerDigits: 2,
+      useGrouping: false,
+    });
+
+  const hours = formatTimeVal(date.getHours());
+  const minutes = formatTimeVal(date.getMinutes());
+
+  return `${hours}:${minutes}`;
+};
+
+const TimeScreen = ({ oTitle, startTime, endTime, seatStatus }) => {
   const bookingStatusStyle = {
     width: "80vw",
     maxWidth: "auto",
@@ -14,11 +27,23 @@ const TimeScreen = ({ startTime, endTime, seatStatus }) => {
     background: "white",
   };
 
+  const timeLeft = (() => {
+    const diff = (endTime - new Date().getTime()) / 60000;
+    return Math.round(diff);
+  })();
+
+  const startStamp = formatTime(new Date(startTime));
+  const endStamp = formatTime(new Date(endTime));
+
   return (
     <main className="bookingStatus" style={bookingStatusStyle}>
+      {oTitle ? (<h4>Your Booking</h4>) : <div />}
       <h1 className="time">
-        {startTime} - {endTime}
+        {startStamp} - {endStamp}
       </h1>
+      <h6>
+        Minutes remaining: {timeLeft}
+      </h6>
       <h3 className="seatStatus">Status: {seatStatus}</h3>
     </main>
   );

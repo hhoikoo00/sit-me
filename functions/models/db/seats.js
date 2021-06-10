@@ -1,17 +1,12 @@
 const time = require("../../utils/time");
 const logger = require("../../utils/logger");
+const timeout = require("../bookingTimeout");
+const {
+  SEATS, BOOKINGS, AREAS,
+  FREE, BOOKED, BREAK,
+} = require("../../utils/constants");
 
-// DB Refs
-const SEATS = "seats";
-const BOOKINGS = "bookings";
-const AREAS = "areas";
-
-// Seat Status
-const FREE = "FREE";
-const BOOKED = "BOOKED";
-const BREAK = "BREAK";
-
-// Break Limit Constraints 
+// Break Limit Constraints
 const MIN_BREAK_WAIT = 36000000; // 1hr in ms
 
 class SeatsDB {
@@ -95,15 +90,17 @@ class SeatsDB {
       endTime: endTime.getTime(),
     };
 
+    // Update seat table and booking table ATOMICALLY
     const updates = {
       [`/areas/${areaId}/current`]: current + 1,
       [`/bookings/${userId}`]: bookingUpdate,
       [`/seats/${seatId}/userId`]: userId,
       [`/seats/${seatId}/status`]: BOOKED,
     };
-
-    // Update seat table and booking table ATOMICALLY
     this.database.update(updates);
+
+    // Add a timeout for removing the booking automatically
+    timeout.createTimeout(userId, startTime.getTime(), endTime.getTime(), this);
 
     return { success: true };
   }
@@ -122,22 +119,23 @@ class SeatsDB {
     const area = await this.areas.child(areaId).get();
     const current = Number(area.val().current);
 
+    // Update seat table and booking table ATOMICALLY
     const updates = {
       [`/areas/${areaId}/current`]: current - 1,
       [`/bookings/${userId}`]: null, // delete
       [`/seats/${seatId}/userId`]: null, // delete
       [`/seats/${seatId}/status`]: FREE,
     };
-
-    // Update seat table and booking table ATOMICALLY
     this.database.update(updates);
+
+    // Remove the timeout before it executes again
+    timeout.removeTimeout(userId);
 
     return { success: true };
   }
 
   async setBreak(userId, startTime, endTime) {
     const booking = await this.getBooking(userId);
-
     if (booking === null) {
       return { success: false, error: "BookingNotFoundError" };
     }
@@ -146,28 +144,26 @@ class SeatsDB {
       seatId, endTime: bookingEndTime, breakInfo: { lastEndTime },
     } = booking;
 
+    // Break should not be rescheduled too soon
     const sinceLastBooking = startTime - lastEndTime;
-
-    // If the last break was within an hour, return error
     if (sinceLastBooking < MIN_BREAK_WAIT) {
-      return { success: false, error: "BreakTooRecentError"};
+      return { success: false, error: "BreakTooRecentError" };
     }
 
-    // If booking ends during a break,
-    // changes break end time to booking end time
+    // Set an upper bound on the break end time, so that break doesn't go
+    // past the end of the booking
     if (bookingEndTime < endTime) {
-      endTime = bookingEndTime;
+      endTime = bookingEndTime - 10000; // Add buffer of 10 sec for safety
     }
 
     const updates = {
       [`/seats/${seatId}/status`]: BREAK,
       [`/bookings/${userId}/breakInfo/startTime`]: startTime,
       [`/bookings/${userId}/breakInfo/endTime`]: endTime,
-    }
-
+    };
     this.database.update(updates);
 
-    return { success: true, startTime, endTime};
+    return { success: true, startTime, endTime };
   }
 
   async finishBreak(userId) {
@@ -184,11 +180,12 @@ class SeatsDB {
       [`/bookings/${userId}/breakInfo/startTime`]: null, // delete
       [`/bookings/${userId}/breakInfo/endTime`]: null, // delete
       [`/bookings/${userId}/breakInfo/lastEndTime`]: endTime,
-    }
+    };
 
     this.database.update(updates);
 
     return { success: true };
+  }
 }
 
 module.exports = SeatsDB;
