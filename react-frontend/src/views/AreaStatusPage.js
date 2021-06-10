@@ -33,7 +33,6 @@ const AreaStatusPage = ({ user }) => {
     })();
 
     (async () => {
-      console.log(user);
       const booking = await getBooking(user);
       if (booking.hasBooked) {
         setCurrBooking(booking.seatId);
