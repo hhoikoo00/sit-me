@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getAreaDetail } from "../utils/DataFetcher";
+import { getAreaDetail, getBooking } from "../utils/DataFetcher";
 
 import AreaTable from "../components/AreaTable/AreaTable";
-import EnterCodeButton from "../components/EnterCode/EnterCodeButton";
 import HomePageArrow from "../components/Home/HomePageArrow";
+import CodeOrStatusButton from "../components/SeatStatus/CodeOrStatusButton";
 
-const AreaStatusPage = () => {
+const AreaStatusPage = ({ user }) => {
   const areaId = useParams().id;
   const [areaInfo, setAreaInfo] = useState({
     areaId: "",
@@ -15,6 +15,8 @@ const AreaStatusPage = () => {
     capacity: 0,
     seats: [],
   });
+
+  const [currBooking, setCurrBooking] = useState("");
 
   const paddedDivStyle = {
     margin: "10vh 10vw",
@@ -29,6 +31,14 @@ const AreaStatusPage = () => {
       const areaData = await getAreaDetail(areaId);
       setAreaInfo(areaData);
     })();
+
+    (async () => {
+      console.log(user);
+      const booking = await getBooking(user);
+      if (booking.hasBooked) {
+        setCurrBooking(booking.seatId);
+      }
+    })();
   }, []);
 
   document.body.style = "background: rgb(245, 245, 245)";
@@ -38,7 +48,7 @@ const AreaStatusPage = () => {
       <HomePageArrow margin={"0"} />
       <div style={titleStyle}> {areaInfo.areaName}</div>
       <AreaTable areaInfo={areaInfo} />
-      <EnterCodeButton />
+      <CodeOrStatusButton seatId={currBooking} />
     </div>
   );
 };

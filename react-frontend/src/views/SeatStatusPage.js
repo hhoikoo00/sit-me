@@ -5,19 +5,6 @@ import { cancelBooking, getSeatInfo } from "../utils/DataFetcher";
 import TimeScreen from "../components/SeatStatus/TimeScreen";
 import ButtonScreen from "../components/SeatStatus/ButtonScreen";
 
-const formatTime = (date) => {
-  const formatTimeVal = (timeVal) => timeVal
-      .toLocaleString("en-US", {
-        minimumIntegerDigits: 2,
-        useGrouping: false,
-      });
-
-  const hours = formatTimeVal(date.getHours());
-  const minutes = formatTimeVal(date.getMinutes());
-
-  return `${hours}:${minutes}`;
-};
-
 const SeatStatusPage = ({ user }) => {
   const seatId = useParams().seatCode;
   const history = useHistory();
@@ -58,9 +45,6 @@ const SeatStatusPage = ({ user }) => {
     setSeatStatus("Studying");
   }, []);
 
-  const startTime = formatTime(new Date(seatInfo.startTime));
-  const endTime = formatTime(new Date(seatInfo.endTime));
-
   const cancelSeat = async (event) => {
     event.preventDefault();
 
@@ -79,10 +63,9 @@ const SeatStatusPage = ({ user }) => {
         <h3>{seatInfo.areaName}</h3>
         <h4 className="seatInfo">{seatInfo.seatId}</h4>
       </div>
-
       <TimeScreen
-        startTime={startTime}
-        endTime={endTime}
+        startTime={seatInfo.startTime}
+        endTime={seatInfo.endTime}
         seatStatus={seatStatus}
       />
 

@@ -57,7 +57,7 @@ const App = () => {
 
         {loggedIn ? (
           <Route path="/area/:id">
-            <AreaStatusPage />
+            <AreaStatusPage user={user} />
           </Route>
         ) : (
           <Redirect from="/area/:id" to="/login/area/:id" />

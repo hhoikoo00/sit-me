@@ -24,7 +24,7 @@ const ButtonScreen = ({ isMine, cancelSeat, goHome }) => {
     <div className="buttonsContainer" style={buttonsContainerStyle}>
       {isMine ? (
         <button type="button" style={statusButtonStyle} onClick={cancelSeat}>
-          FINISH
+          FINISH STUDYING
         </button>
       ) : (
         <div />
