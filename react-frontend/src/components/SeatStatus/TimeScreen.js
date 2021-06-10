@@ -42,7 +42,7 @@ const TimeScreen = ({ oTitle, startTime, endTime, seatStatus }) => {
         {startStamp} - {endStamp}
       </h1>
       <h6>
-        Minutes remaining: {timeLeft}
+        Remaining: {timeLeft} minutes
       </h6>
       <h3 className="seatStatus">Status: {seatStatus}</h3>
     </main>
