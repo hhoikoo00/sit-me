@@ -1,9 +1,4 @@
-// DB Refs
-const AREAS = "areas";
-const SEATS = "seats";
-
-// Seat status
-const FREE = "FREE";
+const { AREAS, SEATS, FREE } = require("../../utils/constants");
 
 class AreasDB {
   constructor(server) {

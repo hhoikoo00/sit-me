@@ -1,15 +1,10 @@
 const time = require("../../utils/time");
 const logger = require("../../utils/logger");
-
-// DB Refs
-const SEATS = "seats";
-const BOOKINGS = "bookings";
-const AREAS = "areas";
-
-// Seat Status
-const FREE = "FREE";
-const BOOKED = "BOOKED";
-const BREAK = "BREAK";
+const timeout = require("../bookingTimeout");
+const {
+  SEATS, BOOKINGS, AREAS,
+  FREE, BOOKED, BREAK,
+} = require("../../utils/constants");
 
 class SeatsDB {
   constructor(server) {
@@ -102,6 +97,9 @@ class SeatsDB {
     // Update seat table and booking table ATOMICALLY
     this.database.update(updates);
 
+    // Add a timeout for removing the booking automatically
+    timeout.createTimeout(userId, startTime.getTime(), endTime.getTime(), this);
+
     return { success: true };
   }
 
@@ -128,6 +126,9 @@ class SeatsDB {
 
     // Update seat table and booking table ATOMICALLY
     this.database.update(updates);
+
+    // Remove the timeout before it executes again
+    timeout.removeTimeout(userId);
 
     return { success: true };
   }
