@@ -2,12 +2,11 @@ const express = require("express");
 const bookingRouter = new express.Router();
 const { seats, areas } = require("../models/models");
 const time = require("../utils/time");
+const { FREE } = require("../utils/constants");
 
-// Maximum duration in minutes (to be defined in a config file)
+// Maximum duration in minutes
+// TODO define this in a config file
 const MAX_DURATION = 180;
-
-// Seat state
-const FREE = "FREE";
 
 bookingRouter.get("/seat/:seatId", async (req, res, next) => {
   const seatId = req.params.seatId;

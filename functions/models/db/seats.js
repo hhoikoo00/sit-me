@@ -1,15 +1,9 @@
 const time = require("../../utils/time");
 const logger = require("../../utils/logger");
-
-// DB Refs
-const SEATS = "seats";
-const BOOKINGS = "bookings";
-const AREAS = "areas";
-
-// Seat Status
-const FREE = "FREE";
-const BOOKED = "BOOKED";
-const BREAK = "BREAK";
+const {
+  SEATS, BOOKINGS, AREAS,
+  FREE, BOOKED, BREAK,
+} = require("../../utils/constants");
 
 class SeatsDB {
   constructor(server) {
