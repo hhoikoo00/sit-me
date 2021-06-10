@@ -1,4 +1,5 @@
 import React from "react";
+
 const AreaTableEntry = ({ seatId, isBooked }) => {
   const tableRowStyle = {
     padding: "5vw",
@@ -28,8 +29,8 @@ const AreaTableEntry = ({ seatId, isBooked }) => {
         <div style={capacityIndicatorStyle}></div>
         <div style={capacityTagStyle}>
           <div style={floorLabelStyle}>Seat</div>
-          <div>
-            #{seatId}
+          <div style={{ fontSize: "75%" }}>
+            <b>Code: </b><i>{seatId}</i>
           </div>
         </div>
       </td>
@@ -37,31 +38,4 @@ const AreaTableEntry = ({ seatId, isBooked }) => {
   );
 };
 
-const Entries = ({ areaInfo }) =>
-  areaInfo.map((entry) => (
-    <AreaTableEntry
-      key={entry.seatId}
-      seatId={entry.seatId}
-      isBooked={entry.isBooked}
-    />
-  ));
-
-const AreaTable = ({ areaInfo }) => {
-  const tableStyle = {
-    backgroundColor: "white",
-    width: "100%",
-    borderRadius: "10px",
-    borderCollapse: "collapse",
-    marginTop: "5vh",
-  };
-
-  return (
-    <table style={tableStyle}>
-      <tbody>
-        <Entries areaInfo={areaInfo} />
-      </tbody>
-    </table>
-  );
-};
-
-export default AreaTable;
+export default AreaTableEntry;

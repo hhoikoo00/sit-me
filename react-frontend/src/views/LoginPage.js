@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import "../../css/index.css";
-import sitMeLogo from "../../assets/logos/sitMeLogo.png";
-import LoginForm from "./LoginForm";
+
+import sitMeLogo from "../assets/logos/sitMeLogo.png";
+import LoginForm from "../components/Login/LoginForm";
 
 const LoginPage = ({ onLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const destPath = useParams().dest || "";
-  const param = useParams().param || ""
+  const param = useParams().param || "";
+
   const logoStyle = {
     width: "50vw",
     maxWidth: "200px",

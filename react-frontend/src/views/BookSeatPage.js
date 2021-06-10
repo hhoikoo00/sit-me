@@ -1,13 +1,19 @@
 import { React, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import { Link } from "react-router-dom";
-import "../../css/index.css";
-import { bookSeat, getSeatInfo } from "../../DataFetcher";
+import { bookSeat, getSeatInfo } from "../utils/DataFetcher";
+
+import DropDownMenu from "../components/BookSeat/DropDownMenu";
 
 const BookSeatPage = ({ user }) => {
   const history = useHistory();
   const seatId = useParams().seatCode;
-  const [seatInfo, setSeatInfo] = useState({});
+
+  const [seatInfo, setSeatInfo] = useState({
+    seatId: "",
+    isBooked: false,
+    areaName: "",
+  });
   const [hour, setHour] = useState(1);
   const [minutes, setMinutes] = useState(0);
 
@@ -20,6 +26,10 @@ const BookSeatPage = ({ user }) => {
     fontSize: "5vw",
   };
 
+  const buttonsContainerStyle = {
+    margin: "40vw auto",
+  };
+
   const timeInfoStyle = {
     width: "50vw",
     maxWidth: "2000px",
@@ -29,30 +39,6 @@ const BookSeatPage = ({ user }) => {
     justifyContent: "spaceBetween",
     fontSize: "1.3rem",
     margin: "25vw auto",
-  };
-
-  const selectDurationStyle = {
-    display: "inlineBlock",
-    flex: "1",
-    padding: "0.5vw 0.5vw",
-  };
-
-  const selectBoxStyle = {
-    width: "25vw",
-    height: "8vw",
-    borderRadius: "10px",
-    background: "white",
-    border: "0",
-  };
-
-  const labelStyle = {
-    position: "absolute",
-    transform: "translate(0px, -5.8vw)",
-    fontSize: "1.1rem",
-  };
-
-  const buttonsContainerStyle = {
-    margin: "40vw auto",
   };
 
   const submitButtonStyle = {
@@ -90,7 +76,7 @@ const BookSeatPage = ({ user }) => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
+    (async () => {
       const seatData = await getSeatInfo(seatId);
       if (seatData.isBooked) {
         alert(`Seat: ${seatId}  is already booked! Please find another!`);
@@ -98,53 +84,37 @@ const BookSeatPage = ({ user }) => {
       } else {
         setSeatInfo(seatData);
       }
-    };
-    fetchData();
+    })();
   }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     await bookSeat(seatId, user, parseFloat(hour * 60) + parseFloat(minutes));
-    history.push("/seatStatus/"+ seatId)
+    history.push("/seatStatus/" + seatId);
   };
 
   return (
     <div className="bookingHoursPage">
       <div className="bookingInfo" style={bookingInfoStyle}>
         <h1>Booking</h1>
-        <h3 className="seatInfo">{seatInfo.seatId}</h3>
+        <h3>{seatInfo.areaName}</h3>
+        <h4 className="seatInfo">{seatInfo.seatId}</h4>
       </div>
 
-      <div className="timeInfo" style={timeInfoStyle}>
-        <div className="selectHours" style={selectDurationStyle}>
-          <label style={labelStyle}>HOURS</label>
-          <select
-            name="hours"
-            id="hours"
-            style={selectBoxStyle}
-            value={hour}
-            onChange={(e) => setHour(e.target.value)}
-          >
-            <option value="1">1</option>
-            <option value="2">2</option>
-          </select>
-        </div>
+      <div style={timeInfoStyle}>
+        <DropDownMenu
+          val={hour}
+          setVal={setHour}
+          vals={["0", "1", "2"]}
+          label="HOURS"
+        />
 
-        <div className="selectMinutes" style={selectDurationStyle}>
-          <label style={labelStyle}>MINUTES</label>
-          <select
-            name="minutes"
-            id="minutes"
-            style={selectBoxStyle}
-            value={minutes}
-            onChange={(e) => setMinutes(e.target.value)}
-          >
-            <option value="0">0</option>
-            <option value="15">15</option>
-            <option value="30">30</option>
-            <option value="45">45</option>
-          </select>
-        </div>
+        <DropDownMenu
+          val={minutes}
+          setVal={setMinutes}
+          vals={["0", "15", "30", "45"]}
+          label="MINUTES"
+        />
       </div>
 
       <div className="buttonsContainer" style={buttonsContainerStyle}>
@@ -153,10 +123,11 @@ const BookSeatPage = ({ user }) => {
           value="SUBMIT"
           style={submitButtonStyle}
           onClick={handleSubmit}
-        > SUBMIT </button>
+        >
+          SUBMIT
+        </button>
         <Link style={linkStyle} to="/entercode">
           <button type="button" style={cancelButtonStyle}>
-            {" "}
             CANCEL
           </button>
         </Link>

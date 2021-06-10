@@ -1,5 +1,5 @@
 import React from "react";
-import { attemptLogin } from "../../DataFetcher";
+import { attemptLogin } from "../../utils/DataFetcher";
 import { useHistory } from "react-router-dom";
 
 const LoginForm = ({
@@ -9,7 +9,7 @@ const LoginForm = ({
   setPassword,
   onLogin,
   destPath,
-  param
+  param,
 }) => {
   const history = useHistory();
 
@@ -42,18 +42,16 @@ const LoginForm = ({
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await attemptLogin(username, password)
-      .then((data) => {
-        if (data.loggedIn) {
-          onLogin(username);
-          if(destPath === "") {
-            history.push("/" + destPath);
-          } else {
-            history.push("/" + destPath + "/" + param);
-          }
-        }
-      })
-      .catch(console.log);
+    const data = await attemptLogin(username, password);
+
+    if (data.loggedIn) {
+      onLogin(username);
+      if (destPath === "") {
+        history.push("/" + destPath);
+      } else {
+        history.push("/" + destPath + "/" + param);
+      }
+    }
   };
 
   return (
@@ -73,7 +71,9 @@ const LoginForm = ({
         onChange={(e) => setPassword(e.target.value)}
         style={inputUsernamePasswordStyle}
       />
-      <button type="submit" value="LOGIN" style={loginButtonStyle}> LOGIN </button>
+      <button type="submit" value="LOGIN" style={loginButtonStyle}>
+        LOGIN
+      </button>
     </form>
   );
 };
