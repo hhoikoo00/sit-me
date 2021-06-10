@@ -4,6 +4,7 @@ import { cancelBooking, getSeatInfo } from "../utils/DataFetcher";
 
 import TimeScreen from "../components/SeatStatus/TimeScreen";
 import ButtonScreen from "../components/SeatStatus/ButtonScreen";
+import ErrorBox from "../components/ErrorBox";
 
 const SeatStatusPage = ({ user }) => {
   const seatId = useParams().seatCode;
@@ -18,6 +19,7 @@ const SeatStatusPage = ({ user }) => {
     areaName: "",
   });
   const [seatStatus, setSeatStatus] = useState("");
+  const [error, setError] = useState("");
 
   const statusPageStyle = {
     align: "center",
@@ -35,10 +37,14 @@ const SeatStatusPage = ({ user }) => {
   useEffect(() => {
     (async () => {
       const seatData = await getSeatInfo(seatId);
-      if (!seatData.isBooked) {
-        history.push("/bookSeat/" + seatId);
+      if ("error" in seatData) {
+        setError(seatData.error);
       } else {
-        setSeatInfo(seatData);
+        if (!seatData.isBooked) {
+          history.push("/bookSeat/" + seatId);
+        } else {
+          setSeatInfo(seatData);
+        }
       }
     })();
 
@@ -48,8 +54,12 @@ const SeatStatusPage = ({ user }) => {
   const cancelSeat = async (event) => {
     event.preventDefault();
 
-    await cancelBooking(user);
-    goHome();
+    const res = await cancelBooking(user);
+    if ("error" in res) {
+      setError(res.error);
+    } else {
+      goHome();
+    }
   };
 
   const goHome = () => {
@@ -59,6 +69,7 @@ const SeatStatusPage = ({ user }) => {
   return (
     <div className="statusPage" style={statusPageStyle}>
       <div className="bookedInfo" style={bookedInfoStyle}>
+        <ErrorBox message={error} />
         <h1>Seat Booked</h1>
         <h3>{seatInfo.areaName}</h3>
         <h4 className="seatInfo">{seatInfo.seatId}</h4>

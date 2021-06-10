@@ -5,6 +5,7 @@ import { getAreaDetail, getBooking } from "../utils/DataFetcher";
 import AreaTable from "../components/AreaTable/AreaTable";
 import HomePageArrow from "../components/Home/HomePageArrow";
 import CodeOrStatusButton from "../components/SeatStatus/CodeOrStatusButton";
+import ErrorBox from "../components/ErrorBox";
 
 const AreaStatusPage = ({ user }) => {
   const areaId = useParams().id;
@@ -15,6 +16,7 @@ const AreaStatusPage = ({ user }) => {
     capacity: 0,
     seats: [],
   });
+  const [error, setError] = useState("");
 
   const [currBooking, setCurrBooking] = useState("");
 
@@ -29,13 +31,21 @@ const AreaStatusPage = ({ user }) => {
   useEffect(() => {
     (async () => {
       const areaData = await getAreaDetail(areaId);
-      setAreaInfo(areaData);
+      if ("error" in areaData) {
+        setError(areaData.error);
+      } else {
+        setAreaInfo(areaData);
+      }
     })();
 
     (async () => {
       const booking = await getBooking(user);
-      if (booking.hasBooked) {
-        setCurrBooking(booking.seatId);
+      if ("error" in booking) {
+        setError(booking.error);
+      } else {
+        if (booking.hasBooked) {
+          setCurrBooking(booking.seatId);
+        }
       }
     })();
   }, []);
@@ -45,6 +55,7 @@ const AreaStatusPage = ({ user }) => {
   return (
     <div style={paddedDivStyle}>
       <HomePageArrow margin={"0"} />
+      <ErrorBox message={error} />
       <div style={titleStyle}> {areaInfo.areaName}</div>
       <AreaTable areaInfo={areaInfo} />
       <CodeOrStatusButton seatId={currBooking} />
