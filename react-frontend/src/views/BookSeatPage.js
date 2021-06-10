@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { bookSeat, getSeatInfo } from "../utils/DataFetcher";
 
 import DropDownMenu from "../components/BookSeat/DropDownMenu";
+import ErrorBox from "../components/ErrorBox";
 
 const BookSeatPage = ({ user }) => {
   const history = useHistory();
@@ -16,6 +17,7 @@ const BookSeatPage = ({ user }) => {
   });
   const [hour, setHour] = useState(1);
   const [minutes, setMinutes] = useState(0);
+  const [error, setError] = useState("");
 
   const bookingInfoStyle = {
     width: "50vw",
@@ -78,24 +80,37 @@ const BookSeatPage = ({ user }) => {
   useEffect(() => {
     (async () => {
       const seatData = await getSeatInfo(seatId);
-      if (seatData.isBooked) {
-        alert(`Seat: ${seatId}  is already booked! Please find another!`);
-        history.push("/entercode");
+      if ("error" in seatData) {
+        setError(seatData.error);
       } else {
-        setSeatInfo(seatData);
+        if (seatData.isBooked) {
+          alert(`Seat: ${seatId}  is already booked! Please find another!`);
+          history.push("/entercode");
+        } else {
+          setSeatInfo(seatData);
+        }
       }
     })();
   }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await bookSeat(seatId, user, parseFloat(hour * 60) + parseFloat(minutes));
-    history.push("/seatStatus/" + seatId);
+    const res = await bookSeat(
+        seatId,
+        user,
+        parseFloat(hour * 60) + parseFloat(minutes),
+    );
+    if ("error" in res) {
+      setError(res.error);
+    } else {
+      history.push("/seatStatus/" + seatId);
+    }
   };
 
   return (
     <div className="bookingHoursPage">
       <div className="bookingInfo" style={bookingInfoStyle}>
+        <ErrorBox message={error} />
         <h1>Booking</h1>
         <h3>{seatInfo.areaName}</h3>
         <h4 className="seatInfo">{seatInfo.seatId}</h4>

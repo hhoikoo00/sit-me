@@ -4,9 +4,11 @@ import { getSeatInfo } from "../utils/DataFetcher";
 
 import HomePageArrow from "../components/Home/HomePageArrow";
 import EnterCodeForm from "../components/EnterCode/EnterCodeForm";
+import ErrorBox from "../components/ErrorBox";
 
 const EnterCodePage = () => {
   const [code, setCode] = useState("");
+  const [error, setError] = useState("");
   const history = useHistory();
 
   const enterCodePageStyle = {
@@ -19,17 +21,22 @@ const EnterCodePage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const seatData = await getSeatInfo(code);
-    if (seatData.isBooked) {
-      alert("This seat is already booked! Please find another!");
-      setCode("");
+    if ("error" in seatData) {
+      setError(seatData.error);
     } else {
-      history.push("/bookSeat/" + code);
+      if (seatData.isBooked) {
+        alert("This seat is already booked! Please find another!");
+        setCode("");
+      } else {
+        history.push("/bookSeat/" + code);
+      }
     }
   };
 
   return (
     <div className="enterCodePage">
       <HomePageArrow margin="10%" />
+      <ErrorBox message={error} />
       <div className="EnterCodeSection" style={enterCodePageStyle}>
         <EnterCodeForm
           handleSubmit={handleSubmit}

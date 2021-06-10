@@ -10,6 +10,7 @@ const LoginForm = ({
   onLogin,
   destPath,
   param,
+  setError,
 }) => {
   const history = useHistory();
 
@@ -42,9 +43,11 @@ const LoginForm = ({
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = await attemptLogin(username, password);
+    const data = await attemptLogin(username.toLowerCase(), password);
 
-    if (data.loggedIn) {
+    if ("error" in data) {
+      setError(data.error);
+    } else {
       onLogin(username.toLowerCase());
       if (destPath === "") {
         history.push("/" + destPath);
