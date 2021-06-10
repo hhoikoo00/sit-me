@@ -4,10 +4,12 @@ import { getAllAreas, getBooking, getSeatInfo } from "../utils/DataFetcher";
 import HomeAreaTable from "../components/Home/HomeAreaTable";
 import CodeOrStatusButton from "../components/SeatStatus/CodeOrStatusButton";
 import TimeScreen from "../components/SeatStatus/TimeScreen";
+import ErrorBox from "../components/ErrorBox";
 
 const HomePage = ({ user }) => {
   const [areaInfo, setAreaInfo] = useState([]);
   const [currBooking, setCurrBooking] = useState("");
+  const [error, setError] = useState("");
 
   const [seatInfo, setSeatInfo] = useState({
     seatId: "",
@@ -30,15 +32,23 @@ const HomePage = ({ user }) => {
   useEffect(() => {
     (async () => {
       const areaData = await getAllAreas();
-      setAreaInfo(areaData);
+      if ("error" in areaData) {
+        setError(areaData.error);
+      } else {
+        setAreaInfo(areaData);
+      }
     })();
 
     (async () => {
       const booking = await getBooking(user);
-      if (booking.hasBooked) {
-        setCurrBooking(booking.seatId);
-        const seatData = await getSeatInfo(booking.seatId);
-        setSeatInfo(seatData);
+      if ("error" in booking) {
+        setError(booking.error);
+      } else {
+        if (booking.hasBooked) {
+          setCurrBooking(booking.seatId);
+          const seatData = await getSeatInfo(booking.seatId);
+          setSeatInfo(seatData);
+        }
       }
     })();
   }, []);
@@ -47,6 +57,7 @@ const HomePage = ({ user }) => {
 
   return (
     <div style={paddedDivStyle}>
+      <ErrorBox message={error} />
       <div style={titleStyle}>Current Status</div>
       {currBooking !== "" ? (
         <TimeScreen
