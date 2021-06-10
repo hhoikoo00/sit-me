@@ -11,6 +11,9 @@ const FREE = "FREE";
 const BOOKED = "BOOKED";
 const BREAK = "BREAK";
 
+// Break Limit Constraints 
+const MIN_BREAK_WAIT = 36000000; // 1hr in ms
+
 class SeatsDB {
   constructor(server) {
     this.database = server.fetchDatabase().ref();
@@ -131,6 +134,61 @@ class SeatsDB {
 
     return { success: true };
   }
+
+  async setBreak(userId, startTime, endTime) {
+    const booking = await this.getBooking(userId);
+
+    if (booking === null) {
+      return { success: false, error: "BookingNotFoundError" };
+    }
+
+    const {
+      seatId, endTime: bookingEndTime, breakInfo: { lastEndTime },
+    } = booking;
+
+    const sinceLastBooking = startTime - lastEndTime;
+
+    // If the last break was within an hour, return error
+    if (sinceLastBooking < MIN_BREAK_WAIT) {
+      return { success: false, error: "BreakTooRecentError"};
+    }
+
+    // If booking ends during a break,
+    // changes break end time to booking end time
+    if (bookingEndTime < endTime) {
+      endTime = bookingEndTime;
+    }
+
+    const updates = {
+      [`/seats/${seatId}/status`]: BREAK,
+      [`/bookings/${userId}/breakInfo/startTime`]: startTime,
+      [`/bookings/${userId}/breakInfo/endTime`]: endTime,
+    }
+
+    this.database.update(updates);
+
+    return { success: true, startTime, endTime};
+  }
+
+  async finishBreak(userId) {
+    const booking = await this.getBooking(userId);
+
+    if (booking === null) {
+      return { success: false, error: "BookingNotFoundError" };
+    }
+
+    const { seatId, breakInfo: { endTime } } = booking;
+
+    const updates = {
+      [`/seats/${seatId}/status`]: BOOKED,
+      [`/bookings/${userId}/breakInfo/startTime`]: null, // delete
+      [`/bookings/${userId}/breakInfo/endTime`]: null, // delete
+      [`/bookings/${userId}/breakInfo/lastEndTime`]: endTime,
+    }
+
+    this.database.update(updates);
+
+    return { success: true };
 }
 
 module.exports = SeatsDB;

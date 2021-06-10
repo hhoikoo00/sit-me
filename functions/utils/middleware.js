@@ -37,6 +37,9 @@ const errorHandler = (error, req, res, next) => {
   if (error.name === "SeatAlreadyBookedError") {
     return res.status(400).send({ error: "Seat is already booked" });
   }
+  if (error.name === "BreakTooRecentError") {
+    return res.status(400).send({ error: "User took a break too recently" });
+  }
 
   next(error);
 };
