@@ -8,6 +8,7 @@ const { FREE } = require("../utils/constants");
 // TODO define this in a config file
 const MAX_DURATION = 180;
 
+/* Get information about a specific seat */
 bookingRouter.get("/seat/:seatId", async (req, res, next) => {
   const seatId = req.params.seatId;
   // Check if given params are valid
@@ -43,6 +44,7 @@ bookingRouter.get("/seat/:seatId", async (req, res, next) => {
   return res.json(seatInfo);
 });
 
+/* Get information about a specific user */
 bookingRouter.get("/user/:userId", async (req, res, next) => {
   const userId = req.params.userId;
   // Check if given params are valid
@@ -65,6 +67,7 @@ bookingRouter.get("/user/:userId", async (req, res, next) => {
   return res.json(userInfo);
 });
 
+/* Add a new booking */
 bookingRouter.post("/", async (req, res, next) => {
   const seatId = req.body.seatId;
   const userId = req.body.userId;
@@ -90,7 +93,8 @@ bookingRouter.post("/", async (req, res, next) => {
 
   // Book seat
   const { success, error } = await seats
-      .book(userId, seatId, startTime, endTime);
+      .book(userId, seatId, startTime.getTime(), endTime.getTime());
+
   if (success) {
     return res.status(201).json({
       userId,
@@ -103,12 +107,12 @@ bookingRouter.post("/", async (req, res, next) => {
   }
 });
 
+/* Remove a booking of the specified user */
 bookingRouter.delete("/:userId", async (req, res, next) => {
   const userId = req.params.userId;
   if (userId === undefined) {
     return next({ name: "InvalidParamsError", params: ["User ID"] });
   }
-
 
   const { success, error } = await seats.unbook(userId);
   if (success) {
@@ -118,7 +122,7 @@ bookingRouter.delete("/:userId", async (req, res, next) => {
   }
 });
 
-// Taking a break
+/* Create a new breaktime for the user */
 bookingRouter.put("/break/:userId", async (req, res, next) => {
   const userId = req.params.userId;
   const duration = req.params.duration;
@@ -130,9 +134,8 @@ bookingRouter.put("/break/:userId", async (req, res, next) => {
   const startDate = time.getTimeInUTC(new Date());
   const endDate = time.addMinutes(startDate, duration);
 
-  const {
-    success, startTime, endTime, error,
-  } = await seats.setBreak(userId, startDate.getTime(), endDate.getTime());
+  const { success, startTime, endTime, error } = await seats
+      .setBreak(userId, startDate.getTime(), endDate.getTime());
 
   if (success) {
     return res.json({ userId, startTime, endTime });
@@ -141,6 +144,7 @@ bookingRouter.put("/break/:userId", async (req, res, next) => {
   }
 });
 
+/* Remove the breaktime for user */
 bookingRouter.delete("/break/:userId", async (req, res, next) => {
   const userId = req.params.userId;
 
@@ -156,6 +160,5 @@ bookingRouter.delete("/break/:userId", async (req, res, next) => {
     return next({ name: error });
   }
 });
-
 
 module.exports = bookingRouter;

@@ -1,6 +1,5 @@
-const time = require("../../utils/time");
-const logger = require("../../utils/logger");
-const timeout = require("../bookingTimeout");
+const bookingTimeout = require("../timeout/booking");
+const breakTimeout = require("../timeout/break");
 const {
   SEATS, BOOKINGS, AREAS,
   FREE, BOOKED, BREAK,
@@ -59,25 +58,7 @@ class SeatsDB {
 
     // Check if the seat is already booked
     if (seat.status === BOOKED || seat.status === BREAK) {
-      const bookedUserId = seat.userId;
-      const existingBooking = await this.getBooking(bookedUserId);
-      const utcEndTime = new Date(existingBooking.endTime);
-      const endTime = time.getLocalTimeFromUTC(utcEndTime);
-
-      // Check if the booking has expired already (just in case)
-      if (endTime.getTime() < new Date().getTime()) {
-        // If booking stale remove it
-        await this.unbook(bookedUserId);
-
-        // Issue warning as this should never happen if system works correctly
-        logger.error(
-            `WARNING: stale booking removed for seat ${seat.id}`,
-            `for user ${bookedUserId}`,
-        );
-      } else {
-        // Seat already booked
-        return { success: false, error: "SeatAlreadyBookedError" };
-      }
+      return { success: false, error: "SeatAlreadyBookedError" };
     }
 
     const areaId = seat.location.areaId;
@@ -86,8 +67,8 @@ class SeatsDB {
 
     const bookingUpdate = {
       seatId,
-      startTime: startTime.getTime(),
-      endTime: endTime.getTime(),
+      startTime: startTime,
+      endTime: endTime,
     };
 
     // Update seat table and booking table ATOMICALLY
@@ -100,7 +81,7 @@ class SeatsDB {
     this.database.update(updates);
 
     // Add a timeout for removing the booking automatically
-    timeout.createTimeout(userId, startTime.getTime(), endTime.getTime(), this);
+    bookingTimeout.createTimeout(userId, startTime, endTime, this);
 
     return { success: true };
   }
@@ -129,7 +110,7 @@ class SeatsDB {
     this.database.update(updates);
 
     // Remove the timeout before it executes again
-    timeout.removeTimeout(userId);
+    bookingTimeout.removeTimeout(userId);
 
     return { success: true };
   }
@@ -163,6 +144,8 @@ class SeatsDB {
     };
     this.database.update(updates);
 
+    breakTimeout.createTimeout(userId, startTime, endTime, this);
+
     return { success: true, startTime, endTime };
   }
 
@@ -181,8 +164,9 @@ class SeatsDB {
       [`/bookings/${userId}/breakInfo/endTime`]: null, // delete
       [`/bookings/${userId}/breakInfo/lastEndTime`]: endTime,
     };
-
     this.database.update(updates);
+
+    breakTimeout.removeTimeout(userId);
 
     return { success: true };
   }
