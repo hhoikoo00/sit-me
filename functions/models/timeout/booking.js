@@ -1,4 +1,5 @@
-const { BOOKINGS } = require("../utils/constants");
+const time = require("../../utils/time");
+const { BOOKINGS } = require("../../utils/constants");
 
 const callbacks = {};
 
@@ -6,7 +7,8 @@ const onStartup = (server, seats) => {
   const bookings = server.fetchDatabase().ref(BOOKINGS).get();
 
   Object.entries(bookings).forEach(([userId, value]) => {
-    const currentTime = new Date().getTime();
+    // Work with UTC Time
+    const currentTime = time.getTimeInUTC(new Date()).getTime();
     const endTime = value.endTime;
     createTimeout(userId, currentTime, endTime, seats);
   });
