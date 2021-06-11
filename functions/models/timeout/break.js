@@ -8,7 +8,13 @@ const onStartup = (server, seats) => {
 
   Object.entries(bookings).forEach(([userId, value]) => {
     // Check if break information exists
-    if (Object.prototype.hasOwnProperty.call(value, "breakInfo")) {
+    // As lastEndTime may be stored even if there is no booking, need to check
+    // for both if breakInfo itself exists and breakInfo.{startTime, endTime}
+    // exists. Using lazy evaluation of && to check for both
+    if (
+      Object.prototype.hasOwnProperty.call(value, "breakInfo") &&
+      Object.prototype.hasOwnProperty.call(value.breakInfo, "endTime")
+    ) {
       const currentTime = time.getTimeInUTC(new Date()).getTime();
       const endTime = value.breakInfo.endTime;
       createTimeout(userId, currentTime, endTime, seats);
