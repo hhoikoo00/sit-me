@@ -22,7 +22,7 @@ const HomePage = ({ user }) => {
 
   const paddedDivStyle = {
     margin: "10vh 10vw",
-    maxWidth: "100%",
+    maxWidth: "1500px",
   };
 
   const titleStyle = {

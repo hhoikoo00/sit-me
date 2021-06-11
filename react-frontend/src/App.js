@@ -23,8 +23,6 @@ const App = () => {
     setUser(userId);
   };
 
-  // TODO refactror redirect component
-
   return (
     <Router>
       <Switch>

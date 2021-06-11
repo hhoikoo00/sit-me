@@ -73,7 +73,7 @@ const bookSeat = async (seatId, userId, duration) => {
 const cancelBooking = async (userId) => {
   const res = await axios
       .delete(`${apiURL}/booking/${userId}`)
-      .then((res)=>res.data)
+      .then(()=>({}))
       .catch((err) => ({
         error: err.response.data.error,
       }));

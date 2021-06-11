@@ -55,6 +55,7 @@ const SeatStatusPage = ({ user }) => {
     event.preventDefault();
 
     const res = await cancelBooking(user);
+    console.log(res);
     if ("error" in res) {
       setError(res.error);
     } else {
