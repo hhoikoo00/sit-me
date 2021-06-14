@@ -5,6 +5,7 @@ import HomeAreaTable from "../components/Home/HomeAreaTable";
 import CodeOrStatusButton from "../components/SeatStatus/CodeOrStatusButton";
 import TimeScreen from "../components/SeatStatus/TimeScreen";
 import ErrorBox from "../components/ErrorBox";
+import { createListener } from "../utils/EventListeners";
 
 const HomePage = ({ user }) => {
   const [areaInfo, setAreaInfo] = useState([]);
@@ -29,28 +30,37 @@ const HomePage = ({ user }) => {
     fontSize: "6vw",
   };
 
-  useEffect(() => {
-    (async () => {
-      const areaData = await getAllAreas();
-      if ("error" in areaData) {
-        setError(areaData.error);
-      } else {
-        setAreaInfo(areaData);
-      }
-    })();
+  const fetchAreaData = async () => {
+    const areaData = await getAllAreas();
+    if ("error" in areaData) {
+      setError(areaData.error);
+    } else {
+      setAreaInfo(areaData);
+    }
+  };
 
-    (async () => {
-      const booking = await getBooking(user);
-      if ("error" in booking) {
-        setError(booking.error);
-      } else {
-        if (booking.hasBooked) {
-          setCurrBooking(booking.seatId);
-          const seatData = await getSeatInfo(booking.seatId);
-          setSeatInfo(seatData);
-        }
+  const fetchBookingData = async () => {
+    const booking = await getBooking(user);
+    if ("error" in booking) {
+      setError(booking.error);
+    } else {
+      if (booking.hasBooked) {
+        setCurrBooking(booking.seatId);
+        const seatData = await getSeatInfo(booking.seatId);
+        setSeatInfo(seatData);
       }
-    })();
+    }
+  };
+
+  createListener(fetchAreaData);
+
+  useEffect(() => {
+    fetchAreaData();
+    fetchBookingData();
+    const interval = setInterval(() => {
+      fetchBookingData();
+    }, 30000);
+    return () => clearInterval(interval);
   }, []);
 
   document.body.style = "background: rgb(245, 245, 245)";

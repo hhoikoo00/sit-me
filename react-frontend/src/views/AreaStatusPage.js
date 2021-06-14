@@ -6,6 +6,7 @@ import AreaTable from "../components/AreaTable/AreaTable";
 import HomePageArrow from "../components/Home/HomePageArrow";
 import CodeOrStatusButton from "../components/SeatStatus/CodeOrStatusButton";
 import ErrorBox from "../components/ErrorBox";
+import { createListener } from "../utils/EventListeners";
 
 const AreaStatusPage = ({ user }) => {
   const areaId = useParams().id;
@@ -28,26 +29,31 @@ const AreaStatusPage = ({ user }) => {
     fontSize: "6vw",
   };
 
-  useEffect(() => {
-    (async () => {
-      const areaData = await getAreaDetail(areaId);
-      if ("error" in areaData) {
-        setError(areaData.error);
-      } else {
-        setAreaInfo(areaData);
-      }
-    })();
+  const fetchAreaData = async () => {
+    const areaData = await getAreaDetail(areaId);
+    if ("error" in areaData) {
+      setError(areaData.error);
+    } else {
+      setAreaInfo(areaData);
+    }
+  };
 
-    (async () => {
-      const booking = await getBooking(user);
-      if ("error" in booking) {
-        setError(booking.error);
-      } else {
-        if (booking.hasBooked) {
-          setCurrBooking(booking.seatId);
-        }
+  const fetchBookingData = async () => {
+    const booking = await getBooking(user);
+    if ("error" in booking) {
+      setError(booking.error);
+    } else {
+      if (booking.hasBooked) {
+        setCurrBooking(booking.seatId);
       }
-    })();
+    }
+  };
+
+  createListener(fetchAreaData);
+
+  useEffect(() => {
+    fetchAreaData();
+    fetchBookingData();
   }, []);
 
   document.body.style = "background: rgb(245, 245, 245)";
