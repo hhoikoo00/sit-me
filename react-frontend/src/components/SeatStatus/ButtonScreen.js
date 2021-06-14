@@ -44,7 +44,7 @@ const ButtonScreen = ({
         </div>
       ) : (
         <button type="button" style={statusButtonStyle} onClick={requestSeat}>
-          Request Seat
+          REQUEST SEAT
         </button>
       )}
 
