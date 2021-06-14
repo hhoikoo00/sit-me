@@ -35,6 +35,7 @@ class AreasDB {
           return {
             seatId,
             isBooked: status !== FREE,
+            status: status,
           };
         });
 
