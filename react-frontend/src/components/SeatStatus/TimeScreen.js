@@ -26,7 +26,7 @@ const TimeScreen = ({ oTitle, startTime, endTime, seatStatus }) => {
     borderColor: "white",
     background: "white",
   };
-
+  const dispSeatStatus = seatStatus === "BREAK" ? "Break" : "Studying";
   const timeLeft = (() => {
     const diff = (endTime - new Date().getTime()) / 60000;
     return Math.round(diff);
@@ -44,7 +44,7 @@ const TimeScreen = ({ oTitle, startTime, endTime, seatStatus }) => {
       <h6>
         Remaining: {timeLeft} minutes
       </h6>
-      <h3 className="seatStatus">Status: {seatStatus}</h3>
+      <h3 className="seatStatus">Status: {dispSeatStatus}</h3>
     </main>
   );
 };

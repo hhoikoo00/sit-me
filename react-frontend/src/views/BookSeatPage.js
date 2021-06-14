@@ -43,7 +43,7 @@ const BookSeatPage = ({ user }) => {
     margin: "25vw auto",
   };
 
-  const submitButtonStyle = {
+  const buttonStyle = {
     display: "block",
     textAlign: "center",
     border: "2px solid #979797",
@@ -54,27 +54,12 @@ const BookSeatPage = ({ user }) => {
     borderRadius: "1000px",
     borderColor: "#03DAC5",
     background: "#03DAC5",
-    fontSize: "1.2rem",
+    fontSize: "1rem",
     margin: "8px auto",
   };
 
   const linkStyle = {
     textDecoration: "none",
-  };
-
-  const cancelButtonStyle = {
-    display: "block",
-    textAlign: "center",
-    border: "2px solid #F66666",
-    padding: "20px 15px",
-    width: "200px",
-    outline: "none",
-    color: "white",
-    borderRadius: "1000px",
-    borderColor: "#F66666",
-    background: "#F66666",
-    fontSize: "1.2rem",
-    margin: "8px auto",
   };
 
   useEffect(() => {
@@ -136,13 +121,13 @@ const BookSeatPage = ({ user }) => {
         <button
           type="button"
           value="SUBMIT"
-          style={submitButtonStyle}
+          style={buttonStyle}
           onClick={handleSubmit}
         >
           Confirm Booking
         </button>
         <Link style={linkStyle} to="/entercode">
-          <button type="button" style={cancelButtonStyle}>
+          <button type="button" style={buttonStyle}>
             CANCEL
           </button>
         </Link>

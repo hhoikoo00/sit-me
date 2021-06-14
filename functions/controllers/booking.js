@@ -110,7 +110,7 @@ bookingRouter.post("/", async (req, res, next) => {
 
 /* Remove a booking of the specified user */
 bookingRouter.delete("/:userId", async (req, res, next) => {
-  const userId = req.body.userId;
+  const userId = req.params.userId;
   if (userId === undefined) {
     return next({ name: "InvalidParamsError", params: ["User ID"] });
   }

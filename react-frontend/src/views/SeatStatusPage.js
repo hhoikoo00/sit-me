@@ -1,6 +1,11 @@
 import { React, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
-import { cancelBooking, getSeatInfo } from "../utils/DataFetcher";
+import {
+  cancelBooking,
+  endBreak,
+  getSeatInfo,
+  takeBreak,
+} from "../utils/DataFetcher";
 
 import TimeScreen from "../components/SeatStatus/TimeScreen";
 import ButtonScreen from "../components/SeatStatus/ButtonScreen";
@@ -18,7 +23,6 @@ const SeatStatusPage = ({ user }) => {
     endTime: 0,
     areaName: "",
   });
-  const [seatStatus, setSeatStatus] = useState("");
   const [error, setError] = useState("");
 
   const statusPageStyle = {
@@ -47,8 +51,6 @@ const SeatStatusPage = ({ user }) => {
         }
       }
     })();
-
-    setSeatStatus("Studying");
   }, []);
 
   const cancelSeat = async (event) => {
@@ -60,6 +62,26 @@ const SeatStatusPage = ({ user }) => {
       setError(res.error);
     } else {
       goHome();
+    }
+  };
+
+  const doTakeBreak = async (event) => {
+    event.preventDefault();
+    const res = await takeBreak(user, 15);
+    if ("error" in res) {
+      setError(res.error);
+    } else {
+      history.push("/");
+    }
+  };
+
+  const doCancelBreak = async (event) => {
+    event.preventDefault();
+    const res = await endBreak(user);
+    if ("error" in res) {
+      setError(res.error);
+    } else {
+      history.push("/");
     }
   };
 
@@ -78,13 +100,16 @@ const SeatStatusPage = ({ user }) => {
       <TimeScreen
         startTime={seatInfo.startTime}
         endTime={seatInfo.endTime}
-        seatStatus={seatStatus}
+        seatStatus={seatInfo.seatStatus}
       />
 
       <ButtonScreen
         isMine={user === seatInfo.userId}
         cancelSeat={cancelSeat}
         goHome={goHome}
+        doTakeBreak={doTakeBreak}
+        doCancelBreak={doCancelBreak}
+        isOnBreak={seatInfo.seatStatus === "BREAK"}
       />
     </div>
   );
