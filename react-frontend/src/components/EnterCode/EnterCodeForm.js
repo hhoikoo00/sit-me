@@ -41,7 +41,7 @@ const EnterCodeForm = ({ handleSubmit, code, setCode }) => {
         style={enterCodeField}
       />
       <button type="submit" value="SUBMIT" style={submitButtonStyle}>
-          SUBMIT
+          Book Seat
       </button>
     </form>
   );
