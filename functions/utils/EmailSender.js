@@ -16,7 +16,8 @@ const sendPingMail = (userId, seatId) => {
     from: email.user,
     to: userId + "@ic.ac.uk",
     subject: "Request to release library seat",
-    html: "Please release seat",
+    html: `Please release your seat by pressing 'Finish Studying'
+     <a href=\"http://imperial-drp-sit-me.web.app/seatStatus/${seatId}> here</a>`,
   };
 
   emailTransporter.sendMail(mailOptions, (error, info) =>{
