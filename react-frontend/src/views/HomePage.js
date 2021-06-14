@@ -64,7 +64,7 @@ const HomePage = ({ user }) => {
           oTitle={"Your Booking"}
           startTime={seatInfo.startTime}
           endTime={seatInfo.endTime}
-          seatStatus={"Yours!"}
+          seatStatus={seatInfo.seatStatus}
         />
       ) : (
         <div />

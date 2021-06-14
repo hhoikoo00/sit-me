@@ -1,6 +1,14 @@
 import React from "react";
+import BreakButton from "../TakeCancelBreak";
 
-const ButtonScreen = ({ isMine, cancelSeat, goHome }) => {
+const ButtonScreen = ({
+  isMine,
+  cancelSeat,
+  goHome,
+  doTakeBreak,
+  doCancelBreak,
+  isOnBreak,
+}) => {
   const buttonsContainerStyle = {
     margin: "15vw auto",
   };
@@ -16,16 +24,23 @@ const ButtonScreen = ({ isMine, cancelSeat, goHome }) => {
     borderRadius: "1000px",
     borderColor: "#03DAC5",
     background: "#03DAC5",
-    fontSize: "1.2rem",
+    fontSize: "1 rem",
     margin: "8px auto",
   };
 
   return (
     <div className="buttonsContainer" style={buttonsContainerStyle}>
       {isMine ? (
-        <button type="button" style={statusButtonStyle} onClick={cancelSeat}>
-          FINISH STUDYING
-        </button>
+        <div>
+          <BreakButton
+            doTakeBreak={doTakeBreak}
+            doCancelBreak={doCancelBreak}
+            isOnBreak={isOnBreak}
+          />
+          <button type="button" style={statusButtonStyle} onClick={cancelSeat}>
+            FINISH STUDYING
+          </button>
+        </div>
       ) : (
         <div />
       )}
