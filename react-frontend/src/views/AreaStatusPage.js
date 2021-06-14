@@ -38,21 +38,22 @@ const AreaStatusPage = ({ user }) => {
     }
   };
 
+  const fetchBookingData = async () => {
+    const booking = await getBooking(user);
+    if ("error" in booking) {
+      setError(booking.error);
+    } else {
+      if (booking.hasBooked) {
+        setCurrBooking(booking.seatId);
+      }
+    }
+  };
+
   createListener(fetchAreaData);
 
   useEffect(() => {
     fetchAreaData();
-
-    (async () => {
-      const booking = await getBooking(user);
-      if ("error" in booking) {
-        setError(booking.error);
-      } else {
-        if (booking.hasBooked) {
-          setCurrBooking(booking.seatId);
-        }
-      }
-    })();
+    fetchBookingData();
   }, []);
 
   document.body.style = "background: rgb(245, 245, 245)";
