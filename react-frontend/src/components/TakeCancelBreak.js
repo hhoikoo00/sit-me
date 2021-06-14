@@ -12,7 +12,7 @@ const BreakButton = ({ doTakeBreak, doCancelBreak, isOnBreak }) => {
     borderRadius: "1000px",
     borderColor: "#03DAC5",
     background: "#03DAC5",
-    fontSize: "1.2rem",
+    fontSize: "1rem",
     margin: "8px auto",
   };
   return isOnBreak ? (
