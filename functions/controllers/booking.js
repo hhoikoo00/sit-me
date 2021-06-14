@@ -172,6 +172,8 @@ bookingRouter.post("/ping/:seatId", async (req, res, next) => {
 
   const userId = seatInfo.userId;
   sendPingMail(userId, seatId);
+
+  return res.status(204).end();
 });
 
 module.exports = bookingRouter;
