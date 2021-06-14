@@ -4,12 +4,14 @@ import {
   cancelBooking,
   endBreak,
   getSeatInfo,
+  pingSeat,
   takeBreak,
 } from "../utils/DataFetcher";
 
 import TimeScreen from "../components/SeatStatus/TimeScreen";
 import ButtonScreen from "../components/SeatStatus/ButtonScreen";
 import ErrorBox from "../components/ErrorBox";
+import { createListener } from "../utils/EventListeners";
 
 const SeatStatusPage = ({ user }) => {
   const seatId = useParams().seatCode;
@@ -50,6 +52,9 @@ const SeatStatusPage = ({ user }) => {
       }
     }
   };
+
+  createListener(fetchData);
+
   useEffect(() => {
     fetchData();
     const interval = setInterval(() => {
@@ -62,7 +67,6 @@ const SeatStatusPage = ({ user }) => {
     event.preventDefault();
 
     const res = await cancelBooking(user);
-    console.log(res);
     if ("error" in res) {
       setError(res.error);
     } else {
@@ -86,8 +90,13 @@ const SeatStatusPage = ({ user }) => {
     if ("error" in res) {
       setError(res.error);
     } else {
-      history.push("/");
+      goHome();
     }
+  };
+
+  const requestSeat = async (event) => {
+    event.preventDefault();
+    await pingSeat(seatId);
   };
 
   const goHome = () => {
@@ -115,6 +124,7 @@ const SeatStatusPage = ({ user }) => {
         doTakeBreak={doTakeBreak}
         doCancelBreak={doCancelBreak}
         isOnBreak={seatInfo.seatStatus === "BREAK"}
+        requestSeat={requestSeat}
       />
     </div>
   );

@@ -19,7 +19,13 @@ const serviceAccount = {
 };
 const databaseURI = (process.env.DATABASEURI || "");
 
+const email = {
+  user: process.env.EMAILUSER,
+  pass: process.env.EMAILPASS,
+};
+
 module.exports = {
   serviceAccount,
   databaseURI,
+  email,
 };

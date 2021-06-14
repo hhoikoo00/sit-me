@@ -14,8 +14,7 @@ const unknownEndpoint = (req, res) => {
 
 const errorHandler = (error, req, res, next) => {
   if (error.name === "InvalidParamsError") {
-    const paramsString = error.params
-        .reduce((acc, cur) => `${acc} or ${cur}`);
+    const paramsString = error.params.reduce((acc, cur) => `${acc} or ${cur}`);
 
     return res.status(400).send({ error: `Missing ${paramsString}` });
   }
@@ -39,6 +38,11 @@ const errorHandler = (error, req, res, next) => {
   }
   if (error.name === "BreakTooRecentError") {
     return res.status(400).send({ error: "User took a break too recently" });
+  }
+  if (error.name === "PingUnbookedSeatError") {
+    return res
+        .status(400)
+        .send({ error: "Attempted to release an unbooked seat" });
   }
 
   next(error);
