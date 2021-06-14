@@ -3,7 +3,7 @@ const bookingRouter = new express.Router();
 const { seats, areas } = require("../models/models");
 const time = require("../utils/time");
 const { FREE } = require("../utils/constants");
-const sendPingMail = require("../utils/emailSender");
+const sendPingMail = require("../utils/EmailSender");
 
 // Maximum duration in minutes
 // TODO define this in a config file
