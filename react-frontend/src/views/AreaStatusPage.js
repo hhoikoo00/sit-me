@@ -6,6 +6,7 @@ import AreaTable from "../components/AreaTable/AreaTable";
 import HomePageArrow from "../components/Home/HomePageArrow";
 import CodeOrStatusButton from "../components/SeatStatus/CodeOrStatusButton";
 import ErrorBox from "../components/ErrorBox";
+import { createListener } from "../utils/EventListeners";
 
 const AreaStatusPage = ({ user }) => {
   const areaId = useParams().id;
@@ -28,15 +29,19 @@ const AreaStatusPage = ({ user }) => {
     fontSize: "6vw",
   };
 
+  const fetchAreaData = async () => {
+    const areaData = await getAreaDetail(areaId);
+    if ("error" in areaData) {
+      setError(areaData.error);
+    } else {
+      setAreaInfo(areaData);
+    }
+  };
+
+  createListener(fetchAreaData);
+
   useEffect(() => {
-    (async () => {
-      const areaData = await getAreaDetail(areaId);
-      if ("error" in areaData) {
-        setError(areaData.error);
-      } else {
-        setAreaInfo(areaData);
-      }
-    })();
+    fetchAreaData();
 
     (async () => {
       const booking = await getBooking(user);

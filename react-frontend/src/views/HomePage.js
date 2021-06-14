@@ -5,6 +5,7 @@ import HomeAreaTable from "../components/Home/HomeAreaTable";
 import CodeOrStatusButton from "../components/SeatStatus/CodeOrStatusButton";
 import TimeScreen from "../components/SeatStatus/TimeScreen";
 import ErrorBox from "../components/ErrorBox";
+import { createListener } from "../utils/EventListeners";
 
 const HomePage = ({ user }) => {
   const [areaInfo, setAreaInfo] = useState([]);
@@ -29,15 +30,19 @@ const HomePage = ({ user }) => {
     fontSize: "6vw",
   };
 
+  const fetchAreaData = async () => {
+    const areaData = await getAllAreas();
+    if ("error" in areaData) {
+      setError(areaData.error);
+    } else {
+      setAreaInfo(areaData);
+    }
+  };
+
+  createListener(fetchAreaData);
+
   useEffect(() => {
-    (async () => {
-      const areaData = await getAllAreas();
-      if ("error" in areaData) {
-        setError(areaData.error);
-      } else {
-        setAreaInfo(areaData);
-      }
-    })();
+    fetchAreaData();
 
     (async () => {
       const booking = await getBooking(user);
