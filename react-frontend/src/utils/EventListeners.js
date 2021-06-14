@@ -16,7 +16,6 @@ const database = app.database();
 const areasRef = database.ref("/areas");
 
 const createListener = async (f) => {
-  console.log("Creating listener");
   areasRef.on("child_changed", async () => {
     f();
   });

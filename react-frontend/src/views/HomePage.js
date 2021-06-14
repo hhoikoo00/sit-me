@@ -57,6 +57,10 @@ const HomePage = ({ user }) => {
   useEffect(() => {
     fetchAreaData();
     fetchBookingData();
+    const interval = setInterval(() => {
+      fetchBookingData();
+    }, 30000);
+    return () => clearInterval(interval);
   }, []);
 
   document.body.style = "background: rgb(245, 245, 245)";
