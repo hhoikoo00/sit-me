@@ -3,6 +3,7 @@ const bookingRouter = new express.Router();
 const { seats, areas } = require("../models/models");
 const time = require("../utils/time");
 const { FREE } = require("../utils/constants");
+const sendPingMail = require("../utils/emailSender");
 
 // Maximum duration in minutes
 // TODO define this in a config file
@@ -160,6 +161,17 @@ bookingRouter.delete("/break/:userId", async (req, res, next) => {
   } else {
     return next({ name: error });
   }
+});
+
+bookingRouter.post("/ping/:seatId", async (req, res, next) => {
+  const seatId = req.params.seatId;
+  const seatInfo = await seats.getSeat(seatId);
+  if (!("userId" in seatInfo)) {
+    next({ name: "PingUnbookedSeatError" });
+  }
+
+  const userId = seatInfo.userId;
+  sendPingMail(userId, seatId);
 });
 
 module.exports = bookingRouter;
