@@ -52,9 +52,9 @@ const HomePage = ({ user }) => {
     }
   };
 
-  createListener(fetchAreaData);
 
   useEffect(() => {
+    createListener(fetchAreaData);
     fetchAreaData();
     fetchBookingData();
     const interval = setInterval(() => {

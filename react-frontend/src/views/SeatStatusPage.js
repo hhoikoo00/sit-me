@@ -40,22 +40,22 @@ const SeatStatusPage = ({ user }) => {
     fontSize: "5vw",
   };
 
-  const fetchData = async () => {
+  const fetchData = async (doHome) => {
     const seatData = await getSeatInfo(seatId);
     if ("error" in seatData) {
       setError(seatData.error);
     } else {
       if (!seatData.isBooked) {
-        history.push("/bookSeat/" + seatId);
+        doHome ? history.push("/") : history.push("/bookSeat/" + seatId);
       } else {
         setSeatInfo(seatData);
       }
     }
   };
 
-  createListener(fetchData);
 
   useEffect(() => {
+    createListener(fetchData);
     fetchData();
     const interval = setInterval(() => {
       fetchData();

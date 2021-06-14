@@ -49,9 +49,9 @@ const AreaStatusPage = ({ user }) => {
     }
   };
 
-  createListener(fetchAreaData);
 
   useEffect(() => {
+    createListener(fetchAreaData);
     fetchAreaData();
     fetchBookingData();
   }, []);
