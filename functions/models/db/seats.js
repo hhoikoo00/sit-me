@@ -1,8 +1,12 @@
 const bookingTimeout = require("../timeout/booking");
 const breakTimeout = require("../timeout/break");
 const {
-  SEATS, BOOKINGS, AREAS,
-  FREE, BOOKED, BREAK,
+  SEATS,
+  BOOKINGS,
+  AREAS,
+  FREE,
+  BOOKED,
+  BREAK,
 } = require("../../utils/constants");
 
 // Break Limit Constraints
@@ -122,11 +126,14 @@ class SeatsDB {
     }
 
     const {
-      seatId, endTime: bookingEndTime, breakInfo: { lastEndTime },
+      seatId,
+      endTime: bookingEndTime,
     } = booking;
 
+    const lastEndTime =
+      "breakInfo" in booking ? booking.breakInfo.lastEndTime : 0;
     // Break should not be rescheduled too soon
-    const sinceLastBooking = startTime - lastEndTime;
+    const sinceLastBooking = startTime - (lastEndTime || 0);
     if (sinceLastBooking < MIN_BREAK_WAIT) {
       return { success: false, error: "BreakTooRecentError" };
     }
@@ -156,7 +163,10 @@ class SeatsDB {
       return { success: false, error: "BookingNotFoundError" };
     }
 
-    const { seatId, breakInfo: { endTime } } = booking;
+    const {
+      seatId,
+      breakInfo: { endTime },
+    } = booking;
 
     const updates = {
       [`/seats/${seatId}/status`]: BOOKED,
