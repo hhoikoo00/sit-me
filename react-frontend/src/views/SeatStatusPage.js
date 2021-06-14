@@ -98,11 +98,13 @@ const SeatStatusPage = ({ user }) => {
   const requestSeat = async (event) => {
     event.preventDefault();
     await pingSeat(seatId);
+    history.push("/");
   };
 
   const report = async (event) => {
     event.preventDefault();
     await reportSeat(seatId);
+    history.push("/");
   };
 
   const goHome = () => {
