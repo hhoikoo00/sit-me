@@ -39,6 +39,7 @@ bookingRouter.get("/seat/:seatId", async (req, res, next) => {
     const booking = await seats.getBooking(userId);
     seatInfo.startTime = booking.startTime;
     seatInfo.endTime = booking.endTime;
+    seatInfo.seatStatus = seat.status;
   }
 
   return res.json(seatInfo);
