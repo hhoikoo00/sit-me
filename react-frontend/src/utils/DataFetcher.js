@@ -102,6 +102,16 @@ const endBreak = async (userID) => {
       }));
   return res;
 };
+
+const pingSeat = async (seatId) => {
+  const res = await axios
+      .post(`${apiURL}/booking/ping/${seatId}`)
+      .then({})
+      .catch((err) => ({
+        error: err.response.data.error,
+      }));
+  return res;
+};
 export {
   attemptLogin,
   getAllAreas,
@@ -112,4 +122,5 @@ export {
   getBooking,
   takeBreak,
   endBreak,
+  pingSeat,
 };
