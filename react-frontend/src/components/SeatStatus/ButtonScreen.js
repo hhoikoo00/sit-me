@@ -9,6 +9,7 @@ const ButtonScreen = ({
   doCancelBreak,
   isOnBreak,
   requestSeat,
+  report,
 }) => {
   const buttonsContainerStyle = {
     margin: "15vw auto",
@@ -43,9 +44,14 @@ const ButtonScreen = ({
           </button>
         </div>
       ) : (
-        <button type="button" style={statusButtonStyle} onClick={requestSeat}>
-          REQUEST SEAT
-        </button>
+        <div>
+          <button type="button" style={statusButtonStyle} onClick={requestSeat}>
+            REQUEST SEAT
+          </button>
+          <button type="button" style={statusButtonStyle} onClick={report}>
+            REPORT
+          </button>
+        </div>
       )}
 
       <button type="button" style={statusButtonStyle} onClick={goHome}>

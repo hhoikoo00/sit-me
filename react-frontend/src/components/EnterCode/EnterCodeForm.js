@@ -1,6 +1,6 @@
 import React from "react";
 
-const EnterCodeForm = ({ handleSubmit, code, setCode }) => {
+const EnterCodeForm = ({ handleSubmit, code, setCode, buttonDesc }) => {
   const submitButtonStyle = {
     display: "block",
     margin: "40px auto",
@@ -41,7 +41,7 @@ const EnterCodeForm = ({ handleSubmit, code, setCode }) => {
         style={enterCodeField}
       />
       <button type="submit" value="SUBMIT" style={submitButtonStyle}>
-          Book Seat
+        {buttonDesc}
       </button>
     </form>
   );

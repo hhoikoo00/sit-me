@@ -3,7 +3,7 @@ const bookingRouter = new express.Router();
 const { seats, areas } = require("../models/models");
 const time = require("../utils/time");
 const { FREE } = require("../utils/constants");
-const sendPingMail = require("../utils/EmailSender");
+const { sendPingMail, sendReportMail } = require("../utils/EmailSender");
 
 // Maximum duration in minutes
 // TODO define this in a config file
@@ -94,8 +94,12 @@ bookingRouter.post("/", async (req, res, next) => {
   const endTime = time.addMinutes(startTime, duration);
 
   // Book seat
-  const { success, error } = await seats
-      .book(userId, seatId, startTime.getTime(), endTime.getTime());
+  const { success, error } = await seats.book(
+      userId,
+      seatId,
+      startTime.getTime(),
+      endTime.getTime(),
+  );
 
   if (success) {
     return res.status(201).json({
@@ -136,8 +140,11 @@ bookingRouter.put("/break/:userId", async (req, res, next) => {
   const startDate = time.getTimeInUTC(new Date());
   const endDate = time.addMinutes(startDate, duration);
 
-  const { success, startTime, endTime, error } = await seats
-      .setBreak(userId, startDate.getTime(), endDate.getTime());
+  const { success, startTime, endTime, error } = await seats.setBreak(
+      userId,
+      startDate.getTime(),
+      endDate.getTime(),
+  );
 
   if (success) {
     return res.json({ userId, startTime, endTime });
@@ -173,6 +180,15 @@ bookingRouter.post("/ping/:seatId", async (req, res, next) => {
   const userId = seatInfo.userId;
   sendPingMail(userId, seatId);
 
+  return res.status(204).end();
+});
+
+bookingRouter.post("/report/:seatId", async (req, res, next) => {
+  const seatId = req.params.seatId;
+  const seatInfo = await seats.getSeat(seatId);
+  const area = await areas.getInfo(seatInfo.location.areaId);
+  const areaName = area.areaName;
+  sendReportMail(seatId, { ...seatInfo, areaName });
   return res.status(204).end();
 });
 

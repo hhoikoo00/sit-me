@@ -5,6 +5,7 @@ import {
   endBreak,
   getSeatInfo,
   pingSeat,
+  reportSeat,
   takeBreak,
 } from "../utils/DataFetcher";
 
@@ -97,6 +98,13 @@ const SeatStatusPage = ({ user }) => {
   const requestSeat = async (event) => {
     event.preventDefault();
     await pingSeat(seatId);
+    history.push("/");
+  };
+
+  const report = async (event) => {
+    event.preventDefault();
+    await reportSeat(seatId);
+    history.push("/");
   };
 
   const goHome = () => {
@@ -125,6 +133,7 @@ const SeatStatusPage = ({ user }) => {
         doCancelBreak={doCancelBreak}
         isOnBreak={seatInfo.seatStatus === "BREAK"}
         requestSeat={requestSeat}
+        report={report}
       />
     </div>
   );

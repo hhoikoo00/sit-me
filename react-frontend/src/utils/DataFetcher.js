@@ -112,6 +112,16 @@ const pingSeat = async (seatId) => {
       }));
   return res;
 };
+
+const reportSeat = async (seatId) => {
+  const res = await axios
+      .post(`${apiURL}/booking/report/${seatId}`)
+      .then({})
+      .catch((err) => ({
+        error: err.response.data.error,
+      }));
+  return res;
+};
 export {
   attemptLogin,
   getAllAreas,
@@ -123,4 +133,5 @@ export {
   takeBreak,
   endBreak,
   pingSeat,
+  reportSeat,
 };

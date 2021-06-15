@@ -20,11 +20,27 @@ const sendPingMail = (userId, seatId) => {
      http://imperial-drp-sit-me.web.app/seatStatus/${seatId}`,
   };
 
-  emailTransporter.sendMail(mailOptions, (error, info) =>{
+  emailTransporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.log(error);
     }
   });
 };
 
-module.exports = sendPingMail;
+const sendReportMail = (seatId, seatInfo) => {
+  const mailOptions = {
+    from: email.user,
+    to: email.user,
+    subject: `Seat Report for seat: ${seatId}`,
+    html: `Someone has reported seat ${seatId}! 
+    This seat is located in ${seatInfo.areaName}`,
+  };
+
+  emailTransporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log(error);
+    }
+  });
+};
+
+module.exports = { sendPingMail, sendReportMail };
