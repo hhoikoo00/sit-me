@@ -95,10 +95,10 @@ bookingRouter.post("/", async (req, res, next) => {
 
   // Book seat
   const { success, error } = await seats.book(
-    userId,
-    seatId,
-    startTime.getTime(),
-    endTime.getTime()
+      userId,
+      seatId,
+      startTime.getTime(),
+      endTime.getTime(),
   );
 
   if (success) {
@@ -141,9 +141,9 @@ bookingRouter.put("/break/:userId", async (req, res, next) => {
   const endDate = time.addMinutes(startDate, duration);
 
   const { success, startTime, endTime, error } = await seats.setBreak(
-    userId,
-    startDate.getTime(),
-    endDate.getTime()
+      userId,
+      startDate.getTime(),
+      endDate.getTime(),
   );
 
   if (success) {
