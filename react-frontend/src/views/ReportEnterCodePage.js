@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
-import { getSeatInfo } from "../utils/DataFetcher";
+import { reportSeat } from "../utils/DataFetcher";
 
 import HomePageArrow from "../components/Home/HomePageArrow";
 import EnterCodeForm from "../components/EnterCode/EnterCodeForm";
-import ErrorBox from "../components/ErrorBox";
 
-const EnterCodePage = () => {
+const ReportEnterCodePage = () => {
   const [code, setCode] = useState("");
-  const [error, setError] = useState("");
   const history = useHistory();
 
   const enterCodePageStyle = {
@@ -20,33 +18,23 @@ const EnterCodePage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const seatData = await getSeatInfo(code);
-    if ("error" in seatData) {
-      setError(seatData.error);
-    } else {
-      if (seatData.isBooked) {
-        alert("This seat is already booked! Please find another!");
-        setCode("");
-      } else {
-        history.push("/bookSeat/" + code);
-      }
-    }
+    await reportSeat(code);
+    history.push("/");
   };
 
   return (
     <div className="enterCodePage">
       <HomePageArrow margin="10%" />
-      <ErrorBox message={error} />
       <div className="EnterCodeSection" style={enterCodePageStyle}>
         <EnterCodeForm
           handleSubmit={handleSubmit}
           code={code}
           setCode={setCode}
-          buttonDesc="Book Seat"
+          buttonDesc="Submit Report"
         />
       </div>
     </div>
   );
 };
 
-export default EnterCodePage;
+export default ReportEnterCodePage;

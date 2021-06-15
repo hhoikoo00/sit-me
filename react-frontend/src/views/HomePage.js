@@ -5,6 +5,7 @@ import HomeAreaTable from "../components/Home/HomeAreaTable";
 import CodeOrStatusButton from "../components/SeatStatus/CodeOrStatusButton";
 import TimeScreen from "../components/SeatStatus/TimeScreen";
 import ErrorBox from "../components/ErrorBox";
+import ReportButton from "../components/ReportLinkButton";
 import { createListener } from "../utils/EventListeners";
 
 const HomePage = ({ user }) => {
@@ -52,7 +53,6 @@ const HomePage = ({ user }) => {
     }
   };
 
-
   useEffect(() => {
     createListener(fetchAreaData);
     fetchAreaData();
@@ -81,6 +81,7 @@ const HomePage = ({ user }) => {
       )}
       <HomeAreaTable areaInfo={areaInfo} />
       <CodeOrStatusButton seatId={currBooking} />
+      <ReportButton />
     </div>
   );
 };
