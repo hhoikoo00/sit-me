@@ -10,8 +10,8 @@ import { MapInteractionCSS } from "react-map-interaction";
 
 const SeatMarker = ({ location, isBooked, code, setSelectedCode }) => {
   const seatStyle = {
-    width: "2.5vw",
-    height: "2.5vw",
+    width: "25px",
+    height: "25px",
     backgroundColor: isBooked ? "red" : "green",
     borderRadius: "100%",
     border: "2px solid black",
