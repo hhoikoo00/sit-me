@@ -43,4 +43,21 @@ const sendReportMail = (seatId, seatInfo) => {
   });
 };
 
-module.exports = { sendPingMail, sendReportMail };
+const sendQRCodes = (path) => {
+  const mailOptions = {
+    from: email.user,
+    to: email.user,
+    subject: "New QR Code Layout",
+    attachments: [
+      { filename: "QRCodes.pdf", path, contentType: "application/pdf" },
+    ],
+  };
+
+  emailTransporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error(error);
+    }
+  });
+};
+
+module.exports = { sendPingMail, sendReportMail, sendQRCodes };
