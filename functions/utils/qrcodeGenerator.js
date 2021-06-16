@@ -13,10 +13,10 @@ const pdfOptions = {
   orientation: "portrait",
   border: "10mm",
   header: {
-    height: "45mm",
+    height: "0mm",
   },
   footer: {
-    height: "28mm",
+    height: "0mm",
   },
 };
 
