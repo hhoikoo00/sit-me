@@ -16,6 +16,7 @@ class AreasDB {
             areaName: area.name,
             currentNumber: area.current,
             capacity: area.capacity,
+            map: area.mapUrl,
           };
         });
 
