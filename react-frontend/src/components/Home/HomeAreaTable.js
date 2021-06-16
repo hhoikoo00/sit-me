@@ -42,7 +42,7 @@ const HomeAreaTableEntry = ({ areaId, areaName, currentNumber, capacity }) => {
 
   return (
     <div style={tableRowStyle}>
-      <Link style={linkStyle} to={"/area/" + areaId} />
+      <Link style={linkStyle} to={"/map/" + areaId} />
       <div style={capacityIndicatorStyle} />
       <div style={capacityTagStyle}>
         <div style={floorLabelStyle}> {areaName} </div>

@@ -16,6 +16,7 @@ class AreasDB {
             areaName: area.name,
             currentNumber: area.current,
             capacity: area.capacity,
+            map: area.mapUrl,
           };
         });
 
@@ -31,11 +32,12 @@ class AreasDB {
     const seatsObject = (await this.seats.get()).val();
     const seats = Object.entries(seatsObject)
         .filter(([key, { location: { areaId: id } }]) => id === areaId)
-        .map(([seatId, { status }]) => {
+        .map(([seatId, { status, coords }]) => {
           return {
             seatId,
             isBooked: status !== FREE,
             status: status,
+            location: coords,
           };
         });
 

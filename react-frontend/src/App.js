@@ -14,6 +14,7 @@ import EnterCodePage from "./views/EnterCodePage";
 import BookSeatPage from "./views/BookSeatPage";
 import SeatStatusPage from "./views/SeatStatusPage";
 import ReportEnterCodePage from "./views/ReportEnterCodePage";
+import AreaMapPage from "./views/AreaMapPage";
 
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -68,6 +69,13 @@ const App = () => {
             <Redirect to="/login/report" />
           )}
         </Route>
+        {loggedIn ? (
+          <Route path="/map/:id">
+            <AreaMapPage user={user} />
+          </Route>
+        ) : (
+          <Redirect from="/map/:id" to="/login/map/:id" />
+        )}
         <Route path="/">
           {loggedIn ? <HomePage user={user} /> : <Redirect to="/login/" />}
         </Route>
