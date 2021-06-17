@@ -124,7 +124,7 @@ const BookSeatPage = ({ user }) => {
           style={buttonStyle}
           onClick={handleSubmit}
         >
-          Confirm Booking
+          CONFIRM BOOKING
         </button>
         <Link style={linkStyle} to="/entercode">
           <button type="button" style={buttonStyle}>

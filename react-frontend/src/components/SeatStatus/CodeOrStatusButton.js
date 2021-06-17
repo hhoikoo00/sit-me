@@ -29,7 +29,7 @@ const CodeOrStatusButton = ({ seatId }) => {
     return (
       <Link to={"/seatStatus/" + seatId} style={{ textDecoration: "none" }}>
         <button type="button" style={buttonStyle}>
-          View Booking
+          VIEW BOOKING
         </button>
       </Link>
     );

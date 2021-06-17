@@ -26,7 +26,7 @@ const ButtonScreen = ({
     borderRadius: "1000px",
     borderColor: "#03DAC5",
     background: "#03DAC5",
-    fontSize: "1 rem",
+    fontSize: "1rem",
     margin: "8px auto",
   };
 

@@ -21,7 +21,7 @@ const BreakButton = ({ doTakeBreak, doCancelBreak, isOnBreak }) => {
     </button>
   ) : (
     <button type="button" style={statusButtonStyle} onClick={doTakeBreak}>
-      15 Minute Break
+      15 MINUTE BREAK
     </button>
   );
 };
