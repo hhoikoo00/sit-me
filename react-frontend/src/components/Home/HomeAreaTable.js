@@ -17,7 +17,7 @@ const HomeAreaTableEntry = ({ areaId, areaName, currentNumber, capacity }) => {
     occupancy < 0.5 ? "green" : occupancy < 1 ? "orange" : "#F66666";
   const capacityIndicatorStyle = {
     backgroundColor: `${colour}`,
-    padding: "4vw",
+    padding: "5vw",
     fontWeight: "bolder",
     borderRadius: "5vw",
   };
@@ -28,6 +28,7 @@ const HomeAreaTableEntry = ({ areaId, areaName, currentNumber, capacity }) => {
 
   const floorLabelStyle = {
     fontWeight: "bold",
+    fontSize: "125%",
   };
 
   // TODO fix linking
@@ -46,7 +47,7 @@ const HomeAreaTableEntry = ({ areaId, areaName, currentNumber, capacity }) => {
       <div style={capacityIndicatorStyle} />
       <div style={capacityTagStyle}>
         <div style={floorLabelStyle}> {areaName} </div>
-        <div style={{ fontSize: "75%" }}>
+        <div style={{ fontSize: "100%" }}>
           Availability: {capacity - currentNumber} / {capacity}
         </div>
       </div>

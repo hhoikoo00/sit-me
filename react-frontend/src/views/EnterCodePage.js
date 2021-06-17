@@ -42,7 +42,7 @@ const EnterCodePage = () => {
           handleSubmit={handleSubmit}
           code={code}
           setCode={setCode}
-          buttonDesc="Book Seat"
+          buttonDesc="BOOK SEAT"
         />
       </div>
     </div>

@@ -12,13 +12,13 @@ const ReportButton = () => {
     borderRadius: "1000px",
     borderColor: "#03DAC5",
     background: "#03DAC5",
-    fontSize: "1.2rem",
+    fontSize: "1rem",
     margin: "8px auto",
   };
   return (
     <Link to="/report" style={{ textDecoration: "none" }}>
       <button type="submit" style={buttonStyle}>
-        Report Seat
+        REPORT SEAT
       </button>
     </Link>
   );

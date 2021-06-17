@@ -35,7 +35,7 @@ const EnterCodeForm = ({ handleSubmit, code, setCode, buttonDesc }) => {
         type="text"
         id="enterCode"
         className="enterCode"
-        placeholder="Enter Code"
+        placeholder="Enter Seat Code"
         value={code}
         onChange={(e) => setCode(e.target.value)}
         style={enterCodeField}

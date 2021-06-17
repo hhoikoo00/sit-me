@@ -13,7 +13,7 @@ const CodeOrStatusButton = ({ seatId }) => {
     borderRadius: "1000px",
     borderColor: "#03DAC5",
     background: "#03DAC5",
-    fontSize: "1.2rem",
+    fontSize: "1rem",
     margin: "8px auto",
   };
 
@@ -21,7 +21,7 @@ const CodeOrStatusButton = ({ seatId }) => {
     return (
       <Link to="/entercode" style={{ textDecoration: "none" }}>
         <button type="button" style={buttonStyle}>
-          Enter Code
+          ENTER SEAT CODE
         </button>
       </Link>
     );

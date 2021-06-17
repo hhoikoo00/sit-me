@@ -24,7 +24,7 @@ const SeatMarker = ({ location, isBooked, code, setSelectedCode }) => {
     setSelectedCode(code);
   };
 
-  return <div style={seatStyle} onTouchStart={setCode} onClick={setCode}/>;
+  return <div style={seatStyle} onTouchStart={setCode} onClick={setCode} />;
 };
 
 const SeatMarkers = ({ areaInfo, setSelectedCode }) =>
@@ -54,12 +54,18 @@ const AreaMapPage = ({ user }) => {
 
   const [selectedCode, setSelectedCode] = useState("");
 
+  const [mapProperties, setMapProperties] = useState({
+    scale: 0.45,
+    translation: { x: -200, y: 0 },
+  });
+
   const paddedDivStyle = {
     margin: "10vh 10vw",
   };
 
   const titleStyle = {
     fontSize: "6vw",
+    textAlign: "center",
   };
 
   const fetchAreaData = async () => {
@@ -117,7 +123,13 @@ const AreaMapPage = ({ user }) => {
       <ErrorBox message={error} />
       <div style={titleStyle}> {areaInfo.areaName}</div>
       <div style={borderMapStyle}>
-        <MapInteractionCSS style={mapDivStyle}>
+        <MapInteractionCSS
+          onChange={(value) => {
+            setMapProperties(value);
+          }}
+          value={mapProperties}
+          style={mapDivStyle}
+        >
           <div>
             <img src={areaInfo.map} alt="Area Map" />
             <SeatMarkers
@@ -128,7 +140,7 @@ const AreaMapPage = ({ user }) => {
         </MapInteractionCSS>
       </div>
       <div style={codeBoxStyle}>
-        <b>Code</b>: {selectedCode}{" "}
+        <b>Seat Code</b>: {selectedCode}{" "}
       </div>
       <CodeOrStatusButton seatId={currBooking} />
     </div>
