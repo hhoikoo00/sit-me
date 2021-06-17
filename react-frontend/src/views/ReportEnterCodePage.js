@@ -30,7 +30,7 @@ const ReportEnterCodePage = () => {
           handleSubmit={handleSubmit}
           code={code}
           setCode={setCode}
-          buttonDesc="Submit Report"
+          buttonDesc="SUBMIT REPORT"
         />
       </div>
     </div>
