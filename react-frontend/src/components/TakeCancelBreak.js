@@ -17,7 +17,7 @@ const BreakButton = ({ doTakeBreak, doCancelBreak, isOnBreak }) => {
   };
   return isOnBreak ? (
     <button type="button" style={statusButtonStyle} onClick={doCancelBreak}>
-      End Break
+      END BREAK
     </button>
   ) : (
     <button type="button" style={statusButtonStyle} onClick={doTakeBreak}>

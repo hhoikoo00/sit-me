@@ -26,7 +26,7 @@ const EnterCodePage = () => {
     } else {
       if (seatData.isBooked) {
         alert("This seat is already booked! Please find another!");
-        setCode("");
+        history.push(`/seatStatus/${code}`);
       } else {
         history.push("/bookSeat/" + code);
       }
