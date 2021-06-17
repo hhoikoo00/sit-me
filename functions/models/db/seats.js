@@ -8,6 +8,7 @@ const {
   BOOKED,
   BREAK,
 } = require("../../utils/constants");
+const generateSeatLabels = require("../../utils/qrcodeGenerator");
 
 // Break Limit Constraints
 const MIN_BREAK_WAIT = 36000000; // 1hr in ms
@@ -18,6 +19,16 @@ class SeatsDB {
     this.seats = this.database.child(SEATS);
     this.bookings = this.database.child(BOOKINGS);
     this.areas = this.database.child(AREAS);
+  }
+
+  async generateNewCodes() {
+    console.log("Generating new code PDF");
+    const snapshot = await this.seats.get();
+    if (!snapshot.exists()) {
+      return null;
+    }
+    const seats = Object.keys(snapshot.val());
+    generateSeatLabels(seats);
   }
 
   async getSeat(seatId) {
@@ -125,10 +136,7 @@ class SeatsDB {
       return { success: false, error: "BookingNotFoundError" };
     }
 
-    const {
-      seatId,
-      endTime: bookingEndTime,
-    } = booking;
+    const { seatId, endTime: bookingEndTime } = booking;
 
     const lastEndTime =
       "breakInfo" in booking ? booking.breakInfo.lastEndTime : 0;

@@ -15,7 +15,7 @@ const sendPingMail = (userId, seatId) => {
   const mailOptions = {
     from: email.user,
     to: userId + "@ic.ac.uk",
-    subject: "Request to release library seat",
+    subject: "Imperial SitMe - Request to release library seat",
     html: `Please release your seat by pressing 'Finish Studying' here:
      http://imperial-drp-sit-me.web.app/seatStatus/${seatId}`,
   };
@@ -31,7 +31,7 @@ const sendReportMail = (seatId, seatInfo) => {
   const mailOptions = {
     from: email.user,
     to: email.user,
-    subject: `Seat Report for seat: ${seatId}`,
+    subject: `Imperial SitMe - Seat Report for seat: ${seatId}`,
     html: `Someone has reported seat ${seatId}! 
     This seat is located in ${seatInfo.areaName}`,
   };
@@ -43,4 +43,23 @@ const sendReportMail = (seatId, seatInfo) => {
   });
 };
 
-module.exports = { sendPingMail, sendReportMail };
+const sendQRCodes = (path) => {
+  const mailOptions = {
+    from: email.user,
+    to: email.user,
+    subject: "Imperial SitMe - Generated QR Codes",
+    html: `A request was received to generate the QR 
+    codes for all the seats, please find a printable PDF enclosed`,
+    attachments: [
+      { filename: "QRCodes.pdf", path, contentType: "application/pdf" },
+    ],
+  };
+
+  emailTransporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error(error);
+    }
+  });
+};
+
+module.exports = { sendPingMail, sendReportMail, sendQRCodes };
