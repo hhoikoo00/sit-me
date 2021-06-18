@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import returnArrow from "../../assets/icons/backArrow.png";
+import returnArrow from "../../assets/icons/backArrow.svg";
 
 const HomePageArrow = ({ margin }) => {
   return (
