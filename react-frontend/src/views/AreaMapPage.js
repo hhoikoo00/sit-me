@@ -14,7 +14,7 @@ const SeatMarker = ({ location, isBooked, code, setSelectedCode }) => {
   const freeSeatStyle = {
     width: "25px",
     height: "25px",
-    backgroundColor: "green",
+    backgroundColor: "blue",
     borderRadius: "100%",
     border: "2px solid black",
     position: "absolute",
@@ -37,21 +37,21 @@ const SeatMarker = ({ location, isBooked, code, setSelectedCode }) => {
     content: "",
     position: "absolute",
     width: "25px",
-    height: "2px",
-    backgroundColor: "white",
+    height: "3px",
+    backgroundColor: "black",
     borderRadius: "0",
-    top: "12.5px",
+    top: "11.5px",
     zIndex: "0",
   };
 
   const bookedVLine = {
     content: "",
     position: "absolute",
-    width: "3px",
+    width: "2px",
     height: "25px",
-    backgroundColor: "white",
+    backgroundColor: "black",
     borderRadius: "0",
-    left: "11px",
+    left: "11.5px",
     zIndex: "0",
   };
 
