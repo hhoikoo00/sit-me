@@ -11,10 +11,10 @@ import { Link } from "react-router-dom";
 import clipBoardIcon from "../assets/icons/clipboardIcon.png";
 
 const SeatMarker = ({ location, isBooked, code, setSelectedCode }) => {
-  const seatStyle = {
+  const freeSeatStyle = {
     width: "25px",
     height: "25px",
-    backgroundColor: isBooked ? "red" : "green",
+    backgroundColor: "green",
     borderRadius: "100%",
     border: "2px solid black",
     position: "absolute",
@@ -22,23 +22,67 @@ const SeatMarker = ({ location, isBooked, code, setSelectedCode }) => {
     left: location.x,
   };
 
+  const bookedSeatStyle = {
+    width: "25px",
+    height: "25px",
+    backgroundColor: "red",
+    borderRadius: "100%",
+    border: "2px solid black",
+    position: "absolute",
+    top: location.y,
+    left: location.x,
+  };
+
+  const bookedHLine = {
+    content: "",
+    position: "absolute",
+    width: "25px",
+    height: "2px",
+    backgroundColor: "white",
+    borderRadius: "0",
+    top: "12.5px",
+    zIndex: "0",
+  };
+
+  const bookedVLine = {
+    content: "",
+    position: "absolute",
+    width: "3px",
+    height: "25px",
+    backgroundColor: "white",
+    borderRadius: "0",
+    left: "11px",
+    zIndex: "0",
+  };
+
   const setCode = () => {
     setSelectedCode(code);
   };
 
-  return <div style={seatStyle} onTouchStart={setCode} onClick={setCode} />;
+  return (
+    <div
+      style={isBooked ? bookedSeatStyle : freeSeatStyle}
+      onTouchStart={setCode}
+      onClick={setCode}
+    >
+      <div style={isBooked ? bookedVLine : {}} />
+      <div style={isBooked ? bookedHLine : {}} />
+    </div>
+  );
 };
 
 const SeatMarkers = ({ areaInfo, setSelectedCode }) =>
-  areaInfo.seats.map(({ seatId, location, isBooked }) => (
-    <SeatMarker
-      key={seatId}
-      location={location}
-      isBooked={isBooked}
-      code={seatId}
-      setSelectedCode={setSelectedCode}
-    />
-  ));
+  areaInfo.seats.map(({ seatId, location, isBooked }) => {
+    return (
+      <SeatMarker
+        key={seatId}
+        location={location}
+        isBooked={isBooked}
+        code={seatId}
+        setSelectedCode={setSelectedCode}
+      ></SeatMarker>
+    );
+  });
 
 const AreaMapPage = ({ user }) => {
   const areaId = useParams().id;
